@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "591559372349",
+    "project_id": "repeater-db9f0",
+    "storage_bucket": "repeater-db9f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591559372349:android:fbccaaa2f730b6a5408454",
+        "android_client_info": {
+          "package_name": "com.ramattec.repeater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591559372349-v8nainni7g8lej4gmbml0j4pa3pse016.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ramattec.repeater",
+            "certificate_hash": "87966ed30d1bd85ea3865d30bb82fdd3bf458c87"
+          }
+        },
+        {
+          "client_id": "591559372349-vmhqsid25nj6l2n4lil292v4blvajkph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcd0OhAofQP9k4vnKd2opzxlU8F6MMRtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591559372349-vmhqsid25nj6l2n4lil292v4blvajkph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

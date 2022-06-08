@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Repeater</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="sign_in">Logar</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="signup">Registrar</string>
+    <string name="name">Nome Completo</string>
+    <string name="email_confirmation">Repetir o E-mail</string>
+    <string name="password_helper">Sua senha deve conter ao menos 6 caracteres.</string>
+    <string name="password_confirmation">Repita a Senha</string>
+    <string name="profile">Perfil</string>
+</resources>
