@@ -4,22 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.ramattec.repeater.R
+import com.google.firebase.auth.AuthCredential
 import com.ramattec.repeater.domain.login.EmailPasswordLoginUseCase
+import com.ramattec.repeater.domain.login.GoogleSigInCredentialUseCase
+import com.ramattec.repeater.domain.login.IsUserLoggedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val emailPasswordLoginUseCase: EmailPasswordLoginUseCase,
+    private val isUserLoggedUseCase: IsUserLoggedUseCase,
+    private val googleSigInCredentialUseCase: GoogleSigInCredentialUseCase
 ) : ViewModel() {
 
     private val _loginResult = MutableLiveData<LoginResult>()
@@ -34,11 +33,7 @@ class LoginViewModel @Inject constructor(
 
     private fun verifyIfUserIsLogged() {
         viewModelScope.launch {
-            if (firebaseAuth.currentUser != null)
-                _loginResult.value =
-                    LoginResult(
-                        success = LoggedUserView(displayName = "Pingolino")
-                    )
+            _loginResult.value = isUserLoggedUseCase()
             _isLoadingUser.value = false
         }
     }
@@ -46,19 +41,13 @@ class LoginViewModel @Inject constructor(
     fun doLogin(email: String, password: String) {
         //TODO Veirify if email and password is not null string
         viewModelScope.launch {
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful)
-                        _loginResult.value =
-                            LoginResult(
-                                success = LoggedUserView(
-                                    displayName =
-                                    firebaseAuth.currentUser?.displayName ?: "Paulino"
-                                )
-                            )
-                    else
-                        _loginResult.value = LoginResult(error = R.string.login_failed)
-                }
+            _loginResult.value = emailPasswordLoginUseCase(email, password)!!
+        }
+    }
+
+    fun updateFirebaseCredential(firebaseCredential: AuthCredential) {
+        viewModelScope.launch {
+            _loginResult.value = googleSigInCredentialUseCase(firebaseCredential)!!
         }
     }
 }

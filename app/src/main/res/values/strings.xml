@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Repeater</string>
+    <string name="google_web_client_id">591559372349-vmhqsid25nj6l2n4lil292v4blvajkph.apps.googleusercontent.com</string>
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

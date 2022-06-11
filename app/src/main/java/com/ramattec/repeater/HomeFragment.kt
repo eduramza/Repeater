@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ramattec.repeater.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -33,6 +35,7 @@ class HomeFragment : Fragment() {
         return when(item.itemId){
             R.id.action_profile -> {
                 Toast.makeText(requireContext(), "Abrir o perfil", Toast.LENGTH_SHORT).show()
+                Firebase.auth.signOut()
                 true
             }
             else -> super.onOptionsItemSelected(item)

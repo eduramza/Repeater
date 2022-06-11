@@ -5,5 +5,5 @@ package com.ramattec.repeater.ui.login
  */
 data class LoginResult(
     val success: LoggedUserView? = null,
-    val error: Int? = null
+    val error: String? = null
 )

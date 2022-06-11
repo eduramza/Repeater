@@ -1,7 +1,6 @@
-package com.ramattec.repeater.di.domain
+package com.ramattec.repeater.di
 
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.ramattec.repeater.data.auth.AuthRepository
 import com.ramattec.repeater.domain.login.EmailPasswordLoginUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,9 +14,7 @@ class UseCaseModule {
 
     @Provides
     @ViewModelScoped
-    fun provideEmailPasswordLoginUseCase() = EmailPasswordLoginUseCase(Firebase.auth)
-
-    @Provides
-    @ViewModelScoped
-    fun provideFirebaseAuth() = Firebase.auth
+    fun provideEmailPasswordLoginUseCase(
+        repository: AuthRepository
+    ) = EmailPasswordLoginUseCase(repository)
 }
