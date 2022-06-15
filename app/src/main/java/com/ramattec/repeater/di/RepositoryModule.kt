@@ -1,7 +1,8 @@
 package com.ramattec.repeater.di
 
 import com.google.firebase.auth.FirebaseAuth
-import com.ramattec.repeater.data.auth.AuthRepository
+import com.ramattec.repeater.data.repository.login.LoginRepository
+import com.ramattec.repeater.data.repository.register.RegisterRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +15,8 @@ class RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideAuthRepository(auth: FirebaseAuth) = AuthRepository(auth)
+    fun provideAuthRepository(
+        auth: FirebaseAuth,
+        fireStoreUserRepository: RegisterRepositoryImpl
+    ) = LoginRepository(auth, fireStoreUserRepository)
 }

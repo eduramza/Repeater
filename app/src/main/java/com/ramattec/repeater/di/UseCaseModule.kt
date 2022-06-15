@@ -1,6 +1,6 @@
 package com.ramattec.repeater.di
 
-import com.ramattec.repeater.data.auth.AuthRepository
+import com.ramattec.repeater.data.repository.login.LoginRepository
 import com.ramattec.repeater.domain.login.EmailPasswordLoginUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,6 +15,6 @@ class UseCaseModule {
     @Provides
     @ViewModelScoped
     fun provideEmailPasswordLoginUseCase(
-        repository: AuthRepository
+        repository: LoginRepository
     ) = EmailPasswordLoginUseCase(repository)
 }
