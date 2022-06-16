@@ -2,7 +2,7 @@ package com.ramattec.repeater.domain.register
 
 import com.ramattec.repeater.domain.Outcome
 import com.ramattec.repeater.domain.RegisterRepository
-import com.ramattec.repeater.domain.entity.register.UserFormEntity
+import com.ramattec.repeater.domain.entity.user.UserFormEntity
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

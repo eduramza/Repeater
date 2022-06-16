@@ -1,22 +1,24 @@
 package com.ramattec.repeater.domain.login
 
-import com.ramattec.repeater.data.repository.login.LoginRepository
+import com.ramattec.repeater.domain.Outcome
+import com.ramattec.repeater.domain.entity.user.UserEntity
+import com.ramattec.repeater.domain.repository.LoginRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class IsUserLoggedUseCase @Inject constructor(
     private val repository: LoginRepository
 ) {
-    suspend operator fun invoke() = flow {
-        val user = repository.verifyUserLogged().getOrNull()
-        if (user != null) emit(LoginUIState.Success(user))
-        else emit(LoginUIState.NotLogged)
-    }.onStart {
-        emit(LoginUIState.Progress)
+    operator fun invoke(): Flow<Outcome<UserEntity>> = flow {
+        emit(Outcome.Progress())
+        val user = repository.verifyIfUserIsLogged().getOrNull()
+        if (user != null) emit(Outcome.Success(user))
     }.catch {
-        emit(LoginUIState.Failure(it.localizedMessage))
-    }
+        emit(Outcome.Failure(it))
+    }.flowOn(Dispatchers.Default)
 
 }

@@ -1,8 +1,8 @@
 package com.ramattec.repeater.domain
 
-import com.ramattec.repeater.domain.entity.register.FirebaseUserEntity
-import com.ramattec.repeater.domain.entity.register.UserEntity
-import com.ramattec.repeater.domain.entity.register.UserFormEntity
+import com.ramattec.repeater.domain.entity.user.FirebaseUserEntity
+import com.ramattec.repeater.domain.entity.user.UserEntity
+import com.ramattec.repeater.domain.entity.user.UserFormEntity
 
 interface RegisterRepository {
     suspend fun doRegisterWithEmailAndPassword(email: String, password:String):

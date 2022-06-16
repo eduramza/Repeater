@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,9 +13,6 @@ import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -52,14 +48,11 @@ class RegisterFragment : Fragment() {
     private fun setupObservers() {
         lifecycleScope.launchWhenStarted {
             registerViewModel.uiState
-                .map { it.isLoading }
-                .distinctUntilChanged()
-                .collect { binding.loading.isVisible = it }
-
-            registerViewModel.uiState
-                .collectLatest {
+                .collect {
                     if (it.newUser != null) loginNewUser()
                     if (it.errorMessage.isNotEmpty()) showRegisterError(it.errorMessage)
+                    if (it.isLoading) binding.loading.visibility =
+                        View.VISIBLE else binding.loading.visibility = View.GONE
                 }
         }
     }

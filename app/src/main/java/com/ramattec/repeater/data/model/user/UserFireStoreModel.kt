@@ -1,7 +1,7 @@
-package com.ramattec.repeater.data.model.register
+package com.ramattec.repeater.data.model.user
 
 import androidx.annotation.ColorRes
-import com.ramattec.repeater.domain.entity.register.UserEntity
+import com.ramattec.repeater.domain.entity.user.UserEntity
 
 data class UserFireStoreModel(
     val firebaseId: String,
@@ -15,7 +15,8 @@ data class UserFireStoreModel(
         name,
         email,
         phoneNumber,
-        photoUrl
+        photoUrl,
+        true
     )
 }
 

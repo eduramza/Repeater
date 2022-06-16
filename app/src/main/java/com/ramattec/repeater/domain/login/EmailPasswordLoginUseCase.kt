@@ -1,7 +1,8 @@
 package com.ramattec.repeater.domain.login
 
-import com.ramattec.repeater.data.model.user.UserModel
-import com.ramattec.repeater.data.repository.login.LoginRepository
+import com.ramattec.repeater.domain.Outcome
+import com.ramattec.repeater.domain.entity.user.UserEntity
+import com.ramattec.repeater.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -11,26 +12,16 @@ import javax.inject.Inject
 class EmailPasswordLoginUseCase @Inject constructor(
     private val repository: LoginRepository
 ) {
-    suspend operator fun invoke(email: String, password: String): Flow<LoginUIState> = flow {
+    suspend operator fun invoke(email: String, password: String): Flow<Outcome<UserEntity>> = flow {
         val result = repository.doLoginWithEmailAndPassword(email, password).getOrNull()
-        if (result != null){
-            result.apply {
-                emit(
-                    LoginUIState.Success(
-                        UserModel(
-                            firebaseId = this.firebaseId,
-                            name = this.name, email = this.email, phoneNumber = this.phoneNumber,
-                            photoUrl = this.photoUrl
-                        )
-                    )
-                )
-            }
+        if (result != null) {
+            emit(Outcome.Success(result))
         } else {
-            emit(LoginUIState.NotLogged)
+            emit(Outcome.Failure(Exception()))
         }
     }.onStart {
-        emit(LoginUIState.Progress)
+        emit(Outcome.Progress())
     }.catch {
-        emit(LoginUIState.Failure(it.localizedMessage))
+        emit(Outcome.Failure(it))
     }
 }

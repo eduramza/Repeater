@@ -3,7 +3,7 @@ package com.ramattec.repeater.ui.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramattec.repeater.domain.Outcome
-import com.ramattec.repeater.domain.entity.register.UserFormEntity
+import com.ramattec.repeater.domain.entity.user.UserFormEntity
 import com.ramattec.repeater.domain.register.RegisterUserEmailAndPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -30,9 +30,10 @@ class RegisterViewModel @Inject constructor(
             registerUserEmailAndPasswordUseCase(
                 UserFormEntity(email = email, password = password, name = name)
             ).collect { result ->
-                when(result){
+                when (result) {
                     is Outcome.Progress -> _uiState.value = RegisterUIState(isLoading = true)
-                    is Outcome.Failure -> _uiState.value = RegisterUIState(errorMessage = result.e.localizedMessage!!)
+                    is Outcome.Failure -> _uiState.value =
+                        RegisterUIState(errorMessage = result.e.localizedMessage!!)
                     is Outcome.Success -> _uiState.value = RegisterUIState(newUser = result.data)
                 }
             }

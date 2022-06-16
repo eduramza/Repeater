@@ -1,4 +1,4 @@
-package com.ramattec.repeater.domain.entity.register
+package com.ramattec.repeater.domain.entity.user
 
 data class UserFormEntity(
     val name: String,

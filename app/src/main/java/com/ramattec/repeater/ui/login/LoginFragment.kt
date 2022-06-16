@@ -1,30 +1,31 @@
 package com.ramattec.repeater.ui.login
 
 import android.app.Activity
-import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.ramattec.repeater.MainActivity
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentLoginBinding
+import com.ramattec.repeater.domain.entity.user.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -52,22 +53,25 @@ class LoginFragment : Fragment() {
 
         oneTapClient = Identity.getSignInClient(requireActivity())
         signInRequest = BeginSignInRequest.builder()
-            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
-                .setSupported(true)
-                .build())
+            .setPasswordRequestOptions(
+                BeginSignInRequest.PasswordRequestOptions.builder()
+                    .setSupported(true)
+                    .build()
+            )
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setServerClientId(getString(R.string.google_web_client_id))
                     .setFilterByAuthorizedAccounts(false)
-                    .build())
+                    .build()
+            )
             .build()
     }
 
     private fun setupView() {
         binding.passwordInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginViewModel.doLogin(
+                loginViewModel.doLoginWithEmailAndPassword(
                     binding.emailInput.text.toString(),
                     binding.passwordInput.text.toString()
                 )
@@ -77,7 +81,7 @@ class LoginFragment : Fragment() {
 
         binding.login.setOnClickListener {
             binding.loading.visibility = View.VISIBLE
-            loginViewModel.doLogin(
+            loginViewModel.doLoginWithEmailAndPassword(
                 binding.emailInput.text.toString(),
                 binding.passwordInput.text.toString()
             )
@@ -88,8 +92,9 @@ class LoginFragment : Fragment() {
                 .addOnSuccessListener { result ->
                     try {
                         resultLauncher.launch(
-                            IntentSenderRequest.Builder(result.pendingIntent.intentSender).build())
-                    } catch (e: IntentSender.SendIntentException){
+                            IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                        )
+                    } catch (e: IntentSender.SendIntentException) {
                         Log.e("Google SignIn", e.message.toString())
                     }
                 }
@@ -104,20 +109,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        loginViewModel.loginResult.observe(viewLifecycleOwner,
-            Observer { loginResult ->
-                loginResult ?: return@Observer
-                binding.loading.visibility = View.GONE
-                loginResult.error?.let {
-                    showLoginFailed(it)
-                }
-                loginResult.success?.let {
-                    updateUiWithUser(it)
-                }
-            })
+        lifecycleScope.launchWhenStarted {
+            loginViewModel.uiState.collect {
+                if (it.loggedUser != null) loginUser(it.loggedUser)
+                if (it.loginError != null) showLoginFailed(it.loginError)
+                if (it.isLoadingUser) binding.loading.visibility =
+                    VISIBLE else binding.loading.visibility = GONE
+            }
+        }
     }
 
-    private fun updateUiWithUser(model: LoggedUserView) {
+    private fun loginUser(loginUIState: UserEntity?) {
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
@@ -128,22 +130,23 @@ class LoginFragment : Fragment() {
 
     private var resultLauncher =
         registerForActivityResult(
-            ActivityResultContracts.StartIntentSenderForResult()){ result ->
-            if (result.resultCode == Activity.RESULT_OK){
+            ActivityResultContracts.StartIntentSenderForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
                 try {
                     val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
                     val idToken = credential.googleIdToken
-                    when{
+                    when {
                         idToken != null -> {
                             val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                            loginViewModel.updateFirebaseCredential(firebaseCredential)
+                            loginViewModel.doLoginWithGoogle(firebaseCredential)
                         }
                     }
-                } catch (e: ApiException){
+                } catch (e: ApiException) {
                     Log.e("Google SignIn", e.message.toString())
                 }
             }
-    }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

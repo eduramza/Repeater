@@ -1,6 +1,6 @@
 package com.ramattec.repeater.ui.register
 
-import com.ramattec.repeater.domain.entity.register.UserEntity
+import com.ramattec.repeater.domain.entity.user.UserEntity
 
 data class RegisterUIState(
     val newUser: UserEntity? = null,
