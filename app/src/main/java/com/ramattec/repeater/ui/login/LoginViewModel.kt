@@ -7,6 +7,8 @@ import com.ramattec.repeater.domain.Outcome.*
 import com.ramattec.repeater.domain.login.EmailPasswordLoginUseCase
 import com.ramattec.repeater.domain.login.GoogleSigInCredentialUseCase
 import com.ramattec.repeater.domain.login.IsUserLoggedUseCase
+import com.ramattec.repeater.domain.register.EmailValidateUseCase
+import com.ramattec.repeater.domain.register.PasswordValidateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +20,9 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val emailPasswordLoginUseCase: EmailPasswordLoginUseCase,
     private val isUserLoggedUseCase: IsUserLoggedUseCase,
-    private val googleSigInCredentialUseCase: GoogleSigInCredentialUseCase
+    private val googleSigInCredentialUseCase: GoogleSigInCredentialUseCase,
+    private val emailValidateUseCase: EmailValidateUseCase,
+    private val passwordValidateUseCase: PasswordValidateUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUIState())
@@ -37,7 +41,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun doLoginWithEmailAndPassword(email: String, password: String) {
-        if (validateUserInput(email, password)) return
+        if (!validateUserInput(email, password)) return
         viewModelScope.launch {
             emailPasswordLoginUseCase(email, password).collect {
                 when (it) {
@@ -50,14 +54,14 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun validateUserInput(email: String, password: String): Boolean {
-        if (email.isEmpty()) {
-            _uiState.value = LoginUIState(isEmailInputInvalid = true)
-            return true
-        } else if (password.isEmpty()) {
-            _uiState.value = LoginUIState(isPasswordInputInvalid = true)
-            return true
+        if (!emailValidateUseCase(email)) {
+            _uiState.value = LoginUIState(isEmailInputValid = false)
+            return false
+        } else if (!passwordValidateUseCase(password)) {
+            _uiState.value = LoginUIState(isPasswordInputValid = false)
+            return false
         }
-        return false
+        return true
     }
 
     fun doLoginWithGoogle(firebaseCredential: AuthCredential) {

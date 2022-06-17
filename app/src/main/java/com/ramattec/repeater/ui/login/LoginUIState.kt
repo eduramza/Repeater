@@ -6,7 +6,7 @@ data class LoginUIState(
     val loggedUser: UserEntity? = null,
     val isLoadingUser: Boolean = false,
     val isLoadingInitialUser: Boolean = true,
-    val isEmailInputInvalid: Boolean = false,
-    val isPasswordInputInvalid: Boolean = false,
+    val isEmailInputValid: Boolean = true,
+    val isPasswordInputValid: Boolean = true,
     val loginError: String? = null
 )

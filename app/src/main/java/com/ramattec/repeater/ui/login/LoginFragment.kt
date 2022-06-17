@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentLoginBinding
@@ -115,6 +116,8 @@ class LoginFragment : Fragment() {
                 if (it.loginError != null) showLoginFailed(it.loginError)
                 if (it.isLoadingUser) binding.loading.visibility =
                     VISIBLE else binding.loading.visibility = GONE
+                if (!it.isEmailInputValid) binding.emailInput.error = "Email inválido"
+                if (!it.isPasswordInputValid) binding.passwordInput.error = "Senha inválida"
             }
         }
     }
@@ -124,8 +127,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun showLoginFailed(errorString: String) {
-        binding.passwordInput.error = errorString
-        binding.emailInput.error = errorString
+        binding.password.isErrorEnabled = true
+        binding.email.isErrorEnabled = true
+        Snackbar.make(binding.root, errorString, Snackbar.LENGTH_SHORT).show()
     }
 
     private var resultLauncher =
