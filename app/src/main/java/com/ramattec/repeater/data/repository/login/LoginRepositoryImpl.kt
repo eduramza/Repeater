@@ -7,6 +7,7 @@ import com.ramattec.repeater.data.model.user.UserFireStoreModel
 import com.ramattec.repeater.data.repository.USER_COLLECTION
 import com.ramattec.repeater.domain.entity.user.FirebaseUserEntity
 import com.ramattec.repeater.domain.entity.user.UserEntity
+import com.ramattec.repeater.domain.entity.user.UserFormEntity
 import com.ramattec.repeater.domain.repository.LoginRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,8 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class LoginRepositoryImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val fireStore: FirebaseFirestore
+    private val firebaseAuth: FirebaseAuth
 ) : LoginRepository {
 
     override fun verifyIfUserIsLogged(): Result<UserEntity> {
@@ -62,16 +62,16 @@ class LoginRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sigInWithGoogleCredential(firebaseCredential: AuthCredential):
-            Result<FirebaseUserEntity> = suspendCoroutine { continuation ->
+            Result<UserFormEntity> = suspendCoroutine { continuation ->
         firebaseAuth.signInWithCredential(firebaseCredential)
             .addOnSuccessListener { result ->
                 result.user?.let {
                     continuation.resume(
                         Result.success(
-                            FirebaseUserEntity(
-                                uid = it.uid,
-                                name = it.displayName,
-                                email = it.email,
+                            UserFormEntity(
+                                name = it.displayName!!,
+                                email = it.email!!,
+                                password = "",
                                 phoneNumber = it.phoneNumber,
                                 photoUrl = it.photoUrl.toString()
                             )
@@ -83,27 +83,6 @@ class LoginRepositoryImpl @Inject constructor(
             }
             .addOnFailureListener {
                 continuation.resumeWithException(it)
-            }
-    }
-
-    override suspend fun saveNewUserOnFireStore(firebaseUser: FirebaseUserEntity):
-            Result<UserEntity> = suspendCoroutine { continuation ->
-        val user = UserFireStoreModel(
-            firebaseId = firebaseUser.uid,
-            name = firebaseUser.name!!,
-            email = firebaseUser.email!!,
-            phoneNumber = firebaseUser.phoneNumber,
-            photoUrl = firebaseUser.photoUrl.toString()
-        )
-        fireStore.collection(USER_COLLECTION)
-            .add(user)
-            .addOnSuccessListener {
-                continuation.resume(
-                    Result.success(user.toEntity())
-                )
-            }
-            .addOnFailureListener { e ->
-                continuation.resumeWithException(e)
             }
     }
 }

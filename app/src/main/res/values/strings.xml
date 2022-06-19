@@ -22,4 +22,11 @@
     <string name="password_helper">Sua senha deve conter ao menos 6 caracteres.</string>
     <string name="password_confirmation">Repita a Senha</string>
     <string name="profile">Perfil</string>
+
+    <!--Home -->
+    <string name="welcome_text">Bem vindo devolta %s ;)</string>
+    <string name="deck_info_new">Novo</string>
+    <string name="deck_info_learning">Aprendendo</string>
+    <string name="deck_info_reviewing">Para Revisar</string>
+    <string name="content_description_add_deck">Adicionar Deck</string>
 </resources>

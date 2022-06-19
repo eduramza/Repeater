@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        android:padding="16dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_deck_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Inglês comidas"
+                android:gravity="center"
+                android:textAppearance="@style/Text.TitleAppearance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <GridLayout
+                android:id="@+id/grid_deck_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_little_margin"
+                android:padding="@dimen/default_little_margin"
+                android:rowOrderPreserved="true"
+                android:rowCount="2"
+                android:columnCount="3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_deck_title">
+
+                <TextView
+                    android:id="@+id/tv_grid_deck_new"
+                    android:layout_width="@dimen/grid_column_size"
+                    android:text="@string/deck_info_new"
+                    android:gravity="center"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"/>
+                <TextView
+                    android:id="@+id/tv_grid_deck_learning"
+                    android:layout_width="@dimen/grid_column_size"
+                    android:gravity="center"
+                    android:text="@string/deck_info_learning"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"/>
+                <TextView
+                    android:id="@+id/tv_grid_deck_reviewing"
+                    android:layout_width="@dimen/grid_column_size"
+                    android:gravity="center"
+                    android:text="@string/deck_info_reviewing"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"/>
+
+                <TextView
+                    android:id="@+id/tv_grid_deck_new_value"
+                    android:layout_width="@dimen/grid_column_size"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"/>
+                <TextView
+                    android:id="@+id/tv_grid_deck_learning_value"
+                    android:layout_width="@dimen/grid_column_size"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"/>
+                <TextView
+                    android:id="@+id/tv_grid_deck_reviewing_value"
+                    android:layout_width="@dimen/grid_column_size"
+                    android:gravity="center"
+                    android:text="34"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"/>
+            </GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

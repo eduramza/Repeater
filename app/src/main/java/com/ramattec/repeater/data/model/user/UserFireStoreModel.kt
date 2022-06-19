@@ -1,16 +1,23 @@
 package com.ramattec.repeater.data.model.user
 
-import androidx.annotation.ColorRes
+import android.os.Parcelable
+import com.ramattec.repeater.data.model.deck.DeckModel
 import com.ramattec.repeater.domain.entity.user.UserEntity
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class UserFireStoreModel(
     val firebaseId: String,
     val name: String,
     val email: String,
     val phoneNumber: String? = null,
     val photoUrl: String? = null,
-    val decks: Deck? = null
-) {
+    val decks: DeckModel? = null
+) : Parcelable {
+
+    constructor() : this("", "", "", null, null, null)
+
     fun toEntity() = UserEntity(
         name,
         email,
@@ -19,11 +26,3 @@ data class UserFireStoreModel(
         true
     )
 }
-
-data class Deck(
-    val deckId: String,
-    val name: String,
-    val theme: String,
-    val description: String?,
-    @ColorRes val color: Int
-)
