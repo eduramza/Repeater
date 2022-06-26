@@ -30,18 +30,5 @@
         android:id="@+id/homeFragment"
         android:name="com.ramattec.repeater.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_deckFragment"
-            app:destination="@id/deckFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/deckFragment"
-        android:name="com.ramattec.repeater.ui.deck.DeckFragment"
-        android:label="DeckFragment"
-        tools:layout="@layout/fragment_deck">
-        <action
-            android:id="@+id/action_deckFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 </navigation>

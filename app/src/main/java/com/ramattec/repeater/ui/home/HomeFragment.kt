@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentHomeBinding
+import com.ramattec.repeater.ui.deck.DeckBottomSheetFragment
+import com.ramattec.repeater.ui.deck.EXTRA_NEW_DECK
+import com.ramattec.repeater.ui.deck.KEY_NEW_DECK
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -22,11 +24,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var adapter: DecksAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +39,11 @@ class HomeFragment : Fragment() {
         setupListeners()
         setupRecyclerView()
         setupObservers()
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            KEY_NEW_DECK, this){_, bundle ->
+            if (bundle.getBoolean(EXTRA_NEW_DECK))
+                homeViewModel.getAllDecks()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -53,6 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        homeViewModel.getAllDecks()
         lifecycleScope.launchWhenCreated {
             homeViewModel.uiState.collect {
                 if (it.isLoading) binding.progress.visibility =
@@ -62,18 +65,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeViewModel.getAllDecks()
-    }
-
     private fun setupView() {
         binding.tvWelcome.text = getString(R.string.welcome_text, homeViewModel.getUsername())
     }
 
     private fun setupListeners() {
         binding.fabNewDeck.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_deckFragment)
+            DeckBottomSheetFragment().show(requireActivity().supportFragmentManager, KEY_NEW_DECK)
         }
     }
 

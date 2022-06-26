@@ -10,4 +10,5 @@
     <dimen name="default_big_margin">24dp</dimen>
     <dimen name="img_back_button">48dp</dimen>
     <dimen name="default_screen_padding">16dp</dimen>
+    <dimen name="padding_bottom_sheet">16dp</dimen>
 </resources>

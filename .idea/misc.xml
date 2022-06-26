@@ -5,9 +5,11 @@
       <map>
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/deck_gradient.xml" value="0.337" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/ic__logo1.xml" value="0.337" />
+        <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/ic_add.xml" value="0.1745" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/ic_back.xml" value="0.1745" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/ic_logo1.xml" value="0.213" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/ic_person.xml" value="0.337" />
+        <entry key="..\:/StudioProjects/repeater/app/src/main/res/drawable/rounded_bottom_sheet_backgroud.xml" value="0.1745" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/layout/container_loading.xml" value="0.36666666666666664" />
         <entry key="..\:/StudioProjects/repeater/app/src/main/res/layout/fragment_deck.xml" value="0.33" />

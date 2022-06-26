@@ -4,21 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.ramattec.repeater.R
-import com.ramattec.repeater.databinding.FragmentDeckBinding
+import com.ramattec.repeater.databinding.BottomSheetDialogDeckBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
+const val KEY_NEW_DECK = "TAG_NEW_DECK"
+const val EXTRA_NEW_DECK = "TAG_NEW_DECK"
+
 @AndroidEntryPoint
-class DeckFragment: Fragment() {
+class DeckBottomSheetFragment : BottomSheetDialogFragment() {
     private val deckViewModel: DeckViewModel by viewModels()
-    private var _binding: FragmentDeckBinding? = null
+    private var _binding: BottomSheetDialogDeckBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -26,7 +31,7 @@ class DeckFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDeckBinding.inflate(inflater, container, false)
+        _binding = BottomSheetDialogDeckBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,13 +41,25 @@ class DeckFragment: Fragment() {
         setupObservers()
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        BottomSheetDialog(requireContext(), R.style.BottomSheetStyle).apply {
+            setCancelable(false)
+            setCanceledOnTouchOutside(true)
+        }
+
     private fun setupObservers() {
         lifecycleScope.launchWhenCreated {
             deckViewModel.uiState.collect {
                 if (it.isLoading) binding.containerProgress.progress.visibility = View.VISIBLE
-                    else binding.containerProgress.progress.visibility = View.GONE
+                else binding.containerProgress.progress.visibility = View.GONE
                 if (it.errorMessage) showDeckError()
-                if (it.success) findNavController().navigate(R.id.action_deckFragment_to_homeFragment)
+                if (it.success) {
+                    setFragmentResult(
+                        KEY_NEW_DECK,
+                        bundleOf(EXTRA_NEW_DECK to true)
+                    )
+                    dismiss()
+                }
             }
         }
     }
@@ -52,13 +69,12 @@ class DeckFragment: Fragment() {
     }
 
     private fun setupListeners() {
-        binding.btDone.setOnClickListener { deckViewModel.saveOrUpdateDeck(
-            binding.titleInput.text.toString(),
-            binding.categoryInput.text.toString(),
-            binding.descriptionInput.text.toString()
-        ) }
-        binding.imgBack.setOnClickListener {
-            findNavController().navigate(R.id.action_deckFragment_to_homeFragment)
+        binding.btDone.setOnClickListener {
+            deckViewModel.saveOrUpdateDeck(
+                binding.titleInput.text.toString(),
+                binding.categoryInput.text.toString(),
+                binding.descriptionInput.text.toString()
+            )
         }
     }
 }
