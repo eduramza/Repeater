@@ -110,7 +110,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             loginViewModel.uiState.collect {
                 if (it.loggedUser != null) loginUser(it.loggedUser)
                 if (it.loginError != null) showLoginFailed(it.loginError)

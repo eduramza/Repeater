@@ -3,9 +3,11 @@
     <dimen name="fragment_horizontal_margin">24dp</dimen>
     <dimen name="fragment_vertical_margin">24dp</dimen>
     <dimen name="default_margin_forms">24dp</dimen>
+    <dimen name="default_big_margin_forms">48dp</dimen>
     <dimen name="profile_avatar_size">48dp</dimen>
     <dimen name="default_little_margin">8dp</dimen>
     <dimen name="default_medium_margin">16dp</dimen>
     <dimen name="default_big_margin">24dp</dimen>
-    <dimen name="grid_column_size">90dp</dimen>
+    <dimen name="img_back_button">48dp</dimen>
+    <dimen name="default_screen_padding">16dp</dimen>
 </resources>

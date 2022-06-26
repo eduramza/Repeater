@@ -1,15 +1,19 @@
 package com.ramattec.repeater.ui.home
 
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -17,6 +21,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var adapter: DecksAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +40,30 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         setupListeners()
+        setupRecyclerView()
+        setupObservers()
+    }
+
+    private fun setupRecyclerView() {
+        adapter = DecksAdapter() { id ->
+            Snackbar.make(binding.root, "Clicked on Item : $id", Snackbar.LENGTH_SHORT).show()
+        }
+        binding.rvDecks.adapter = adapter
+        binding.rvDecks.layoutManager = LinearLayoutManager(requireActivity())
+    }
+
+    private fun setupObservers() {
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.uiState.collect {
+                if (it.isLoading) binding.progress.visibility =
+                    View.VISIBLE else binding.progress.visibility = View.GONE
+                if (it.decksLoaded.isNotEmpty()) adapter.submitList(it.decksLoaded)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         homeViewModel.getAllDecks()
     }
 
@@ -44,26 +73,9 @@ class HomeFragment : Fragment() {
 
     private fun setupListeners() {
         binding.fabNewDeck.setOnClickListener {
-            homeViewModel.addNewDeck()
+            findNavController().navigate(R.id.action_homeFragment_to_deckFragment)
         }
     }
-
-    //region - Menu
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.action_profile -> {
-                Toast.makeText(requireContext(), "Abrir o perfil", Toast.LENGTH_SHORT).show()
-                Firebase.auth.signOut()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-    //endregion
 
     override fun onDestroyView() {
         super.onDestroyView()

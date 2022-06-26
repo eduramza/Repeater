@@ -7,9 +7,12 @@ import com.ramattec.repeater.data.model.deck.DeckModel
 import com.ramattec.repeater.data.repository.DECK_COLLECTION
 import com.ramattec.repeater.data.repository.DECK_SUB_COLLECTION
 import com.ramattec.repeater.data.repository.TAG
+import com.ramattec.repeater.domain.entity.deck.DeckFormEntity
 import com.ramattec.repeater.domain.repository.DeckRepository
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Singleton
@@ -25,29 +28,26 @@ class DeckRepositoryImpl @Inject constructor(
                 .collection(DECK_SUB_COLLECTION)
                 .get()
                 .addOnSuccessListener {documents ->
-                    for (document in documents) {
-                        Log.d(TAG, "${document.id} => ${document.data}")
-                    }
+                    val results = documents.toObjects(DeckModel::class.java)
+                    continuation.resume(Result.success(results))
                 }
                 .addOnFailureListener {
-                    Log.w(TAG, it)
+                    continuation.resumeWithException(it)
                 }
         }
 
-    override suspend fun addNewDeck(deck: DeckModel) =
-        suspendCoroutine<Result<List<DeckModel>>> { continuation ->
+    override suspend fun saveDeck(deck: DeckFormEntity) =
+        suspendCoroutine<Result<Boolean>> { continuation ->
+            val deckModel = DeckModel.create(deck)
             fireStore.collection(DECK_COLLECTION)
                 .document(firebaseAuth.uid!!)
                 .collection(DECK_SUB_COLLECTION)
-                .document(deck.deckId)
+                .document(deckModel.deckId)
                 .set(deck)
-                .addOnCompleteListener {
-                    if (it.isSuccessful)
-                        Log.d(TAG, "deck salvo com sucesso")
-                    else
-                        Log.w(TAG, it.exception)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(true))
                 }.addOnFailureListener {
-                    Log.w(TAG, it)
+                    continuation.resumeWithException(it)
                 }
         }
 }

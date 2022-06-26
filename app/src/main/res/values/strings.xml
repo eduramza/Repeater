@@ -24,9 +24,16 @@
     <string name="profile">Perfil</string>
 
     <!--Home -->
-    <string name="welcome_text">Bem vindo devolta %s ;)</string>
+    <string name="welcome_text">Bem vindo de volta %s ;)</string>
     <string name="deck_info_new">Novo</string>
     <string name="deck_info_learning">Aprendendo</string>
     <string name="deck_info_reviewing">Para Revisar</string>
     <string name="content_description_add_deck">Adicionar Deck</string>
+    <string name="save_new_deck">Salvar Novo Deck</string>
+
+    <!-- Deck -->
+    <string name="hint_title">Nome do Deck</string>
+    <string name="hint_category">Categoria</string>
+    <string name="hint_description">Descrição</string>
+    <string name="error_saving_deck">Problemas ao salvar o novo Deck, tente novamente mais tarde</string>
 </resources>
