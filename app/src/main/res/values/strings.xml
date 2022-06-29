@@ -36,4 +36,10 @@
     <string name="hint_category">Categoria</string>
     <string name="hint_description">Descrição</string>
     <string name="error_saving_deck">Problemas ao salvar o novo Deck, tente novamente mais tarde</string>
+    <string name="last_view">Visto por ultimo: $s</string>
+    <string name="reveal_answer">Revelar Resposta</string>
+    <string name="config">Configurar</string>
+    <string name="delete">Excluir</string>
+    <string name="cancel">Cancelar</string>
+    <string name="wish_exclude_item">Deseja mesmo excluir este item?</string>
 </resources>

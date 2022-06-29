@@ -72,8 +72,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="10"
-                android:textAppearance="@style/Text.DeckInfoSubtitle"
-                android:textStyle="bold" />
+                android:textAppearance="@style/Text.DeckNewItem" />
 
             <TextView
                 android:id="@+id/tv_grid_deck_learning_value"
@@ -82,7 +81,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="3"
-                android:textAppearance="@style/Text.DeckInfoSubtitle"
+                android:textAppearance="@style/Text.DeckLearningItem"
                 android:textStyle="bold" />
 
             <TextView
@@ -92,7 +91,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="34"
-                android:textAppearance="@style/Text.DeckInfoSubtitle"
+                android:textAppearance="@style/Text.DeckReviewItem"
                 android:textStyle="bold" />
         </LinearLayout>
 

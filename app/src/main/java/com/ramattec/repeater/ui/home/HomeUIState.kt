@@ -6,5 +6,7 @@ data class HomeUIState(
     val isLoading: Boolean = true,
     val decksLoaded: List<DeckEntity> = emptyList(),
     val username: String = "",
-    val photoUrl: String = ""
+    val photoUrl: String = "",
+    val isError: Boolean = false,
+    val deckDeleted: Boolean = false
 )

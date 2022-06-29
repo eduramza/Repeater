@@ -17,9 +17,6 @@ import com.ramattec.repeater.databinding.BottomSheetDialogDeckBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
-const val KEY_NEW_DECK = "TAG_NEW_DECK"
-const val EXTRA_NEW_DECK = "TAG_NEW_DECK"
-
 @AndroidEntryPoint
 class DeckBottomSheetFragment : BottomSheetDialogFragment() {
     private val deckViewModel: DeckViewModel by viewModels()
@@ -50,16 +47,15 @@ class DeckBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setupObservers() {
         lifecycleScope.launchWhenCreated {
             deckViewModel.uiState.collect {
-                if (it.isLoading) binding.containerProgress.progress.visibility = View.VISIBLE
-                else binding.containerProgress.progress.visibility = View.GONE
-                if (it.errorMessage) showDeckError()
-                if (it.success) {
-                    setFragmentResult(
-                        KEY_NEW_DECK,
-                        bundleOf(EXTRA_NEW_DECK to true)
-                    )
-                    dismiss()
+                if (it.isLoading) {
+                    binding.progress.visibility = View.VISIBLE
+                    binding.contentNewDeck.visibility = View.INVISIBLE
+                } else {
+                    binding.progress.visibility = View.GONE
+                    binding.contentNewDeck.visibility = View.VISIBLE
                 }
+                if (it.errorMessage) showDeckError()
+                if (it.saveWithSuccess) { dismiss() }
             }
         }
     }

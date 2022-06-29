@@ -25,7 +25,7 @@ class DeckViewModel @Inject constructor(
             saveDeckUseCase(DeckFormEntity(title, category, description)).collect {
                 when(it){
                     is Outcome.Progress -> _uiState.value = DeckUIState(isLoading = true)
-                    is Outcome.Success -> _uiState.value = DeckUIState(success = true, isLoading = false)
+                    is Outcome.Success -> _uiState.value = DeckUIState(saveWithSuccess = true, isLoading = false)
                     is Outcome.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
                 }
             }

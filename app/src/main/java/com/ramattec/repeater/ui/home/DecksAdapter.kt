@@ -9,7 +9,8 @@ import com.ramattec.repeater.databinding.ItemDeckBinding
 import com.ramattec.repeater.domain.entity.deck.DeckEntity
 
 class DecksAdapter(
-    private val onClick: (deckId: String) -> Unit
+    private val onClick: (deckId: String) -> Unit,
+    private val onLongClick: (deckId: String) -> Unit
 ) : ListAdapter<DeckEntity, DecksAdapter.ViewHolder>(DeckDiffCallback()) {
 
     inner class ViewHolder(private val binding: ItemDeckBinding) :
@@ -21,6 +22,10 @@ class DecksAdapter(
             binding.tvGridDeckReviewingValue.text = item.toReview.toString()
             binding.root.setOnClickListener {
                 onClick(item.id)
+            }
+            binding.root.setOnLongClickListener {
+                onLongClick(item.id)
+                true
             }
         }
     }

@@ -50,4 +50,18 @@ class DeckRepositoryImpl @Inject constructor(
                     continuation.resumeWithException(it)
                 }
         }
+
+    override suspend fun deleteDeck(id: String) =
+        suspendCoroutine<Result<Boolean>> { continuation ->
+        fireStore.collection(DECK_COLLECTION)
+            .document(firebaseAuth.uid!!)
+            .collection(DECK_SUB_COLLECTION)
+            .document(id)
+            .delete()
+            .addOnSuccessListener {
+                continuation.resume(Result.success(true))
+            }.addOnFailureListener {
+                continuation.resumeWithException(it)
+            }
+    }
 }

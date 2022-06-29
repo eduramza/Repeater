@@ -15,15 +15,44 @@
         <item name="android:titleTextStyle">@style/Text.TitleAppearance</item>
     </style>
 
+    <style name="Text.CardTextAppearance" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">31sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="Text.TitleAppearance" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.SubTitleAppearance" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">21sp</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text.DeckInfoSubtitle" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="Text.DeckNewItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorDeckNew</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.DeckReviewItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorDeckReview</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.DeckLearningItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorDeckLearning</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ButtonPositive" parent="Widget.MaterialComponents.Button">

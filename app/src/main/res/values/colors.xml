@@ -6,4 +6,9 @@
     <color name="colorAccentVariant">#A0AFC5</color>
     <color name="colorTextPrimary">#4D56B9</color>
     <color name="colorTextSecondary">#FFFFFFFF</color>
+
+    <!-- DECK ITEMS -->
+    <color name="colorDeckLearning">#D41E25</color>
+    <color name="colorDeckReview">#2F942A</color>
+    <color name="colorDeckNew">#FFC529</color>
 </resources>
