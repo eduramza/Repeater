@@ -3,6 +3,7 @@ package com.ramattec.repeater.ui.deck
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramattec.repeater.domain.Outcome
+import com.ramattec.repeater.domain.deck.DeleteDeckUseCase
 import com.ramattec.repeater.domain.deck.SaveDeckUseCase
 import com.ramattec.repeater.domain.entity.deck.DeckFormEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeckViewModel @Inject constructor(
-    private val saveDeckUseCase: SaveDeckUseCase
+    private val saveDeckUseCase: SaveDeckUseCase,
+    private val deleteDeckUseCase: DeleteDeckUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(DeckUIState())
@@ -31,4 +33,17 @@ class DeckViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteDeck(id: String){
+        viewModelScope.launch {
+            deleteDeckUseCase(id).collect {
+                when(it){
+                    is Outcome.Progress -> _uiState.value = DeckUIState(isLoading = true)
+                    is Outcome.Success -> _uiState.value = DeckUIState(deleteWithSuccess = true, isLoading = false)
+                    is Outcome.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
+                }
+            }
+        }
+    }
+
 }

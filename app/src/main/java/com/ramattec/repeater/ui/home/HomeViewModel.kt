@@ -6,7 +6,6 @@ import com.ramattec.repeater.domain.Outcome
 import com.ramattec.repeater.domain.deck.DeleteDeckUseCase
 import com.ramattec.repeater.domain.deck.FetchAllUserDecksUseCase
 import com.ramattec.repeater.domain.user.GetUsernameUseCase
-import com.ramattec.repeater.ui.deck.DeckUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

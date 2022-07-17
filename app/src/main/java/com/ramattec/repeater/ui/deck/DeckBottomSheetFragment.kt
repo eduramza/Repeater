@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -14,12 +13,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.BottomSheetDialogDeckBinding
+import com.ramattec.repeater.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class DeckBottomSheetFragment : BottomSheetDialogFragment() {
     private val deckViewModel: DeckViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private var _binding: BottomSheetDialogDeckBinding? = null
     private val binding get() = _binding!!
 
@@ -55,7 +56,10 @@ class DeckBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.contentNewDeck.visibility = View.VISIBLE
                 }
                 if (it.errorMessage) showDeckError()
-                if (it.saveWithSuccess) { dismiss() }
+                if (it.saveWithSuccess) {
+                    homeViewModel.getAllDecks()
+                    dismiss()
+                }
             }
         }
     }

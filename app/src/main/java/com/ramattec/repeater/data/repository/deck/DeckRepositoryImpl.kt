@@ -43,7 +43,7 @@ class DeckRepositoryImpl @Inject constructor(
                 .document(firebaseAuth.uid!!)
                 .collection(DECK_SUB_COLLECTION)
                 .document(deckModel.deckId)
-                .set(deck)
+                .set(deckModel)
                 .addOnSuccessListener {
                     continuation.resume(Result.success(true))
                 }.addOnFailureListener {

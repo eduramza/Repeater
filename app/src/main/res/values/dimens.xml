@@ -12,4 +12,5 @@
     <dimen name="padding_bottom_sheet">16dp</dimen>
     <dimen name="margin_start_deck_info">48dp</dimen>
     <dimen name="margin_session_long">64dp</dimen>
+    <dimen name="img_default_size">48dp</dimen>
 </resources>

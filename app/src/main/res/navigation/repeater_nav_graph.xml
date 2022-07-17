@@ -43,5 +43,13 @@
         <argument
             android:name="deckId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_deckFragment_to_flashCardFragment"
+            app:destination="@id/flashCardFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/flashCardFragment"
+        android:name="com.ramattec.repeater.ui.game.FlashCardFragment"
+        android:label="FlashCardFragment"
+        tools:layout="@layout/fragment_flash_card"/>
 </navigation>

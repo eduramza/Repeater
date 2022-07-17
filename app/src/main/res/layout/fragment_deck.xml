@@ -6,41 +6,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/img_config"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings"
+        android:id="@+id/img_delete"
+        android:layout_width="@dimen/img_default_size"
+        android:layout_height="@dimen/img_default_size"
+        android:src="@drawable/ic_delete"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <include
-        android:id="@+id/container_ask"
-        layout="@layout/item_card_ask"
+    <TextView
+        android:id="@+id/tv_deck_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_marginTop="@dimen/margin_session_long"
+        android:textAppearance="@style/Text.TitleAppearance"
+        android:text="Titulo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config" />
+        app:layout_constraintTop_toBottomOf="@id/img_delete"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <include
-        android:id="@+id/container_answer"
-        layout="@layout/item_card_answer"
+    <TextView
+        android:id="@+id/tv_deck_new_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/margin_session_long"
+        android:textAppearance="@style/Text.DeckInfoSubtitle"
+        android:text="@string/deck_info_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_title"
+        android:layout_marginTop="@dimen/default_medium_margin" />
+    <TextView
+        android:id="@+id/tv_deck_new_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_medium_margin"
+        android:text="23"
+        android:layout_marginStart="@dimen/margin_start_deck_info"
+        android:textAppearance="@style/Text.DeckNewItem"
+        app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_title" />
+
+    <TextView
+        android:id="@+id/tv_deck_learning_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Text.DeckInfoSubtitle"
+        android:text="@string/deck_info_learning"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info"
+        android:layout_marginTop="@dimen/default_medium_margin" />
+    <TextView
+        android:id="@+id/tv_deck_learning_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_medium_margin"
+        android:text="10"
+        android:layout_marginStart="@dimen/margin_start_deck_info"
+        android:textAppearance="@style/Text.DeckLearningItem"
+        app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info" />
+
+    <TextView
+        android:id="@+id/tv_deck_review_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Text.DeckInfoSubtitle"
+        android:text="@string/deck_info_reviewing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_info"
+        android:layout_marginTop="@dimen/default_medium_margin" />
+    <TextView
+        android:id="@+id/tv_deck_review_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_medium_margin"
+        android:text="18"
+        android:layout_marginStart="@dimen/margin_start_deck_info"
+        android:textAppearance="@style/Text.DeckReviewItem"
+        app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_value" />
+
+    <TextView
+        android:id="@+id/tv_last_view_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_deck_review_value" />
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Categoria selecionada"
+        android:textAppearance="@style/Text.SubTitleAppearance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config" />
+        app:layout_constraintTop_toBottomOf="@id/tv_last_view_info"
+        android:layout_marginTop="@dimen/margin_session_long" />
 
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descrição do card criado"
+        android:textAppearance="@style/Text.DeckInfoSubtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_category"
+        android:layout_marginTop="@dimen/default_big_margin" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_study"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reveal_answer"
+        android:text="@string/study"
+        app:layout_constraintBottom_toTopOf="@id/bt_config"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_config"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="@string/config"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
