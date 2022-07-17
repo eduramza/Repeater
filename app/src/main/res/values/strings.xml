@@ -43,4 +43,7 @@
     <string name="cancel">Cancelar</string>
     <string name="wish_exclude_item">Deseja mesmo excluir este item?</string>
     <string name="study">Estudar</string>
+    <string name="add_new_card">Adicionar Novo Cartão</string>
+    <string name="my_cards">Meus Cards</string>
+    <string name="tittle">Titulo</string>
 </resources>

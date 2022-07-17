@@ -61,6 +61,7 @@ class HomeFragment : Fragment() {
 
     private fun setupObservers() {
         lifecycleScope.launchWhenCreated {
+            homeViewModel.getAllDecks()
             homeViewModel.uiState.collect {
                 if (it.isLoading) binding.progress.visibility =
                     View.VISIBLE else binding.progress.visibility = View.GONE

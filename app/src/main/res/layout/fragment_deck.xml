@@ -6,10 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/img_delete"
+        android:id="@+id/img_settings"
         android:layout_width="@dimen/img_default_size"
         android:layout_height="@dimen/img_default_size"
-        android:src="@drawable/ic_delete"
+        android:padding="8dp"
+        android:src="@drawable/ic_settings"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -18,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Text.TitleAppearance"
-        android:text="Titulo"
+        android:text="@string/tittle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_delete"
+        app:layout_constraintTop_toBottomOf="@id/img_config"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -31,12 +32,12 @@
         android:text="@string/deck_info_new"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_deck_title"
-        android:layout_marginTop="@dimen/default_medium_margin" />
+        android:layout_marginTop="@dimen/default_little_margin" />
     <TextView
         android:id="@+id/tv_deck_new_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_medium_margin"
+        android:layout_marginTop="@dimen/default_little_margin"
         android:text="23"
         android:layout_marginStart="@dimen/margin_start_deck_info"
         android:textAppearance="@style/Text.DeckNewItem"
@@ -51,12 +52,12 @@
         android:text="@string/deck_info_learning"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info"
-        android:layout_marginTop="@dimen/default_medium_margin" />
+        android:layout_marginTop="@dimen/default_little_margin" />
     <TextView
         android:id="@+id/tv_deck_learning_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_medium_margin"
+        android:layout_marginTop="@dimen/default_little_margin"
         android:text="10"
         android:layout_marginStart="@dimen/margin_start_deck_info"
         android:textAppearance="@style/Text.DeckLearningItem"
@@ -71,12 +72,12 @@
         android:text="@string/deck_info_reviewing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_info"
-        android:layout_marginTop="@dimen/default_medium_margin" />
+        android:layout_marginTop="@dimen/default_little_margin" />
     <TextView
         android:id="@+id/tv_deck_review_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_medium_margin"
+        android:layout_marginTop="@dimen/default_little_margin"
         android:text="18"
         android:layout_marginStart="@dimen/margin_start_deck_info"
         android:textAppearance="@style/Text.DeckReviewItem"
@@ -92,45 +93,94 @@
         app:layout_constraintTop_toBottomOf="@id/tv_deck_review_value" />
 
     <TextView
-        android:id="@+id/tv_category"
+        android:id="@+id/tv_about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categoria selecionada"
+        android:text="Sobre"
         android:textAppearance="@style/Text.SubTitleAppearance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_last_view_info"
-        android:layout_marginTop="@dimen/margin_session_long" />
+        android:layout_marginTop="@dimen/default_margin_forms" />
 
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_add_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descrição do card criado"
-        android:textAppearance="@style/Text.DeckInfoSubtitle"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:layout_marginEnd="@dimen/min_margin"
+        android:layout_marginStart="@dimen/min_margin"
+        android:layout_marginTop="@dimen/default_little_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_category"
-        android:layout_marginTop="@dimen/default_big_margin" />
+        app:layout_constraintTop_toBottomOf="@id/tv_about">
 
-    <com.google.android.material.button.MaterialButton
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/add_new_card"
+                android:textAppearance="@style/Text.DeckInfoSubtitle"
+                android:textStyle="bold"
+                android:layout_weight="2"
+                android:gravity="center"/>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_add"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="end"
+                android:backgroundTint="@color/colorPrimary"
+                app:iconTint="@color/colorTextSecondary" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_my_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_cards"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_add_item"
+        android:textAppearance="@style/Text.TitleAppearance"
+        android:layout_marginTop="@dimen/default_medium_margin" />
+
+    <include
+        android:id="@+id/container_ask"
+        layout="@layout/item_card_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/margin_mbig"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_cards" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/bt_study"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/study"
-        app:layout_constraintBottom_toTopOf="@id/bt_config"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_config"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="@string/config"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Estudar"
+        android:textColor="@color/colorTextSecondary"
+        android:textAllCaps="false"
+        android:textSize="21sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginTop="-20dp"
+        app:layout_constraintStart_toStartOf="@id/container_ask"
+        app:layout_constraintEnd_toEndOf="@id/container_ask"
+        app:layout_constraintTop_toBottomOf="@id/container_ask" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

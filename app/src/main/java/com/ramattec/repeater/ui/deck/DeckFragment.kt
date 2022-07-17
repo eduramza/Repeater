@@ -37,7 +37,7 @@ class DeckFragment: Fragment() {
     }
 
     private fun setupView() {
-        binding.imgDelete.setOnClickListener {
+        binding.imgSettings.setOnClickListener {
             deckViewModel.deleteDeck(args.deckId)
         }
     }

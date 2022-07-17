@@ -13,20 +13,18 @@ import java.util.*
 data class DeckModel(
     val deckId: String,
     val title: String,
-    val category: String,
-    val description: String?,
+    val about: String?,
     @ServerTimestamp
     @get: PropertyName("createdAt") @set: PropertyName("createdAt") var timestamp: Date= Date()
 ) : Parcelable{
-    constructor(): this("", "", "", null, Date())
+    constructor(): this("", "", null, Date())
 
     companion object {
         fun create(entity: DeckFormEntity): DeckModel {
             return DeckModel(
                 deckId = UUID.randomUUID().toString(),
                 title = entity.title,
-                category = entity.category ?: "",
-                description = entity.description
+                about = entity.category ?: ""
             ).apply {
                 this.timestamp to FieldValue.serverTimestamp()
             }
