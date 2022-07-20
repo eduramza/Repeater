@@ -13,28 +13,55 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <include
-        android:id="@+id/container_ask"
-        layout="@layout/item_card_ask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_marginTop="@dimen/margin_session_long"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config" />
-
-    <include
+    <androidx.cardview.widget.CardView
         android:id="@+id/container_answer"
-        layout="@layout/item_card_answer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:minHeight="@dimen/ask_card_size_default"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
         android:layout_marginTop="@dimen/margin_session_long"
+        android:layout_marginEnd="@dimen/min_margin"
+        android:layout_marginStart="@dimen/min_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config" />
+        app:layout_constraintTop_toBottomOf="@id/img_config">
 
+        <TextView
+            android:id="@+id/tv_answer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Esse é o texto de resposta de teste"
+            android:textAppearance="@style/Text.CardTextAppearance"
+            android:gravity="center|center_vertical"
+            android:padding="24dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container_ask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/ask_card_size_default"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="@dimen/margin_session_long"
+        android:layout_marginEnd="@dimen/min_margin"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_config">
+
+        <TextView
+            android:id="@+id/tv_ask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Esse é o meu texto que estou usando para treinar para ver como ele vai ficar no card"
+            android:textAppearance="@style/Text.CardTextAppearance"
+            android:gravity="center"
+            android:padding="24dp" />
+
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_study"

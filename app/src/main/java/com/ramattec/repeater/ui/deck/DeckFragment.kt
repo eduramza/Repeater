@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentDeckBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -34,6 +35,16 @@ class DeckFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         setupView()
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        binding.cardNextAsk.setOnClickListener {
+            findNavController().navigate(R.id.action_deckFragment_to_flashCardFragment)
+        }
+        binding.btStudy.setOnClickListener {
+            findNavController().navigate(R.id.action_deckFragment_to_flashCardFragment)
+        }
     }
 
     private fun setupView() {

@@ -21,7 +21,7 @@
         android:textAppearance="@style/Text.TitleAppearance"
         android:text="@string/tittle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config"
+        app:layout_constraintTop_toBottomOf="@id/img_settings"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -147,7 +147,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/tv_my_cards"
+        android:id="@+id/tv_next_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/my_cards"
@@ -156,31 +156,53 @@
         android:textAppearance="@style/Text.TitleAppearance"
         android:layout_marginTop="@dimen/default_medium_margin" />
 
-    <include
-        android:id="@+id/container_ask"
-        layout="@layout/item_card_ask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_marginTop="@dimen/margin_mbig"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_next_ask"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ask_card_size_default"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:layout_marginTop="@dimen/default_margins"
+        android:layout_marginEnd="@dimen/min_margin"
+        android:layout_marginStart="@dimen/min_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_my_cards" />
+        app:layout_constraintTop_toBottomOf="@id/tv_next_card">
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <TextView
+            android:id="@+id/tv_ask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Esse é o meu texto que estou usando para treinar para ver como ele vai ficar no card"
+            android:textAppearance="@style/Text.CardTextAppearance"
+            android:gravity="center"
+            android:padding="16dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/bt_study"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Estudar"
-        android:textColor="@color/colorTextSecondary"
-        android:textAllCaps="false"
-        android:textSize="21sp"
-        android:textAlignment="center"
-        android:gravity="center"
+        app:cardElevation="9dp"
+        app:cardCornerRadius="48dp"
         android:layout_marginTop="-20dp"
-        app:layout_constraintStart_toStartOf="@id/container_ask"
-        app:layout_constraintEnd_toEndOf="@id/container_ask"
-        app:layout_constraintTop_toBottomOf="@id/container_ask" />
+        app:layout_constraintStart_toStartOf="@id/card_next_ask"
+        app:layout_constraintEnd_toEndOf="@id/card_next_ask"
+        app:layout_constraintTop_toBottomOf="@id/card_next_ask" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Estudar"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="21sp"
+            android:textAlignment="center" />
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

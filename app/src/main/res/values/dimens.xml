@@ -7,12 +7,12 @@
     <dimen name="profile_avatar_size">48dp</dimen>
     <dimen name="default_little_margin">8dp</dimen>
     <dimen name="default_medium_margin">16dp</dimen>
-    <dimen name="default_big_margin">24dp</dimen>
+    <dimen name="default_margins">24dp</dimen>
     <dimen name="default_screen_padding">16dp</dimen>
     <dimen name="padding_bottom_sheet">16dp</dimen>
     <dimen name="margin_start_deck_info">48dp</dimen>
     <dimen name="margin_session_long">64dp</dimen>
     <dimen name="img_default_size">48dp</dimen>
-    <dimen name="margin_mbig">32dp</dimen>
     <dimen name="min_margin">4dp</dimen>
+    <dimen name="ask_card_size_default">180dp</dimen>
 </resources>
