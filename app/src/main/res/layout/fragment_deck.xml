@@ -1,208 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fragment_padding_default"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/img_settings"
-        android:layout_width="@dimen/img_default_size"
-        android:layout_height="@dimen/img_default_size"
-        android:padding="8dp"
-        android:src="@drawable/ic_settings"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_deck_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.TitleAppearance"
-        android:text="@string/tittle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_settings"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_deck_new_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.DeckInfoSubtitle"
-        android:text="@string/deck_info_new"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_title"
-        android:layout_marginTop="@dimen/default_little_margin" />
-    <TextView
-        android:id="@+id/tv_deck_new_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_little_margin"
-        android:text="23"
-        android:layout_marginStart="@dimen/margin_start_deck_info"
-        android:textAppearance="@style/Text.DeckNewItem"
-        app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_title" />
-
-    <TextView
-        android:id="@+id/tv_deck_learning_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.DeckInfoSubtitle"
-        android:text="@string/deck_info_learning"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info"
-        android:layout_marginTop="@dimen/default_little_margin" />
-    <TextView
-        android:id="@+id/tv_deck_learning_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_little_margin"
-        android:text="10"
-        android:layout_marginStart="@dimen/margin_start_deck_info"
-        android:textAppearance="@style/Text.DeckLearningItem"
-        app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info" />
-
-    <TextView
-        android:id="@+id/tv_deck_review_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.DeckInfoSubtitle"
-        android:text="@string/deck_info_reviewing"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_info"
-        android:layout_marginTop="@dimen/default_little_margin" />
-    <TextView
-        android:id="@+id/tv_deck_review_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_little_margin"
-        android:text="18"
-        android:layout_marginStart="@dimen/margin_start_deck_info"
-        android:textAppearance="@style/Text.DeckReviewItem"
-        app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_value" />
-
-    <TextView
-        android:id="@+id/tv_last_view_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/last_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_deck_review_value" />
-
-    <TextView
-        android:id="@+id/tv_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sobre"
-        android:textAppearance="@style/Text.SubTitleAppearance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_last_view_info"
-        android:layout_marginTop="@dimen/default_margin_forms" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_add_item"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        android:layout_marginEnd="@dimen/min_margin"
-        android:layout_marginStart="@dimen/min_margin"
-        android:layout_marginTop="@dimen/default_little_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_about">
+        android:padding="@dimen/fragment_padding_default">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/img_settings"
+            android:layout_width="@dimen/img_default_size"
+            android:layout_height="@dimen/img_default_size"
+            android:padding="8dp"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_deck_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.TitleAppearance"
+            android:text="@string/tittle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_settings"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_deck_new_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.DeckInfoSubtitle"
+            android:text="@string/deck_info_new"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_title"
+            android:layout_marginTop="@dimen/default_little_margin" />
+        <TextView
+            android:id="@+id/tv_deck_new_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_little_margin"
+            android:text="23"
+            android:layout_marginStart="@dimen/margin_start_deck_info"
+            android:textAppearance="@style/Text.DeckNewItem"
+            app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_title" />
+
+        <TextView
+            android:id="@+id/tv_deck_learning_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.DeckInfoSubtitle"
+            android:text="@string/deck_info_learning"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info"
+            android:layout_marginTop="@dimen/default_little_margin" />
+        <TextView
+            android:id="@+id/tv_deck_learning_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_little_margin"
+            android:text="10"
+            android:layout_marginStart="@dimen/margin_start_deck_info"
+            android:textAppearance="@style/Text.DeckLearningItem"
+            app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_new_info" />
+
+        <TextView
+            android:id="@+id/tv_deck_review_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.DeckInfoSubtitle"
+            android:text="@string/deck_info_reviewing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_info"
+            android:layout_marginTop="@dimen/default_little_margin" />
+        <TextView
+            android:id="@+id/tv_deck_review_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_little_margin"
+            android:text="18"
+            android:layout_marginStart="@dimen/margin_start_deck_info"
+            android:textAppearance="@style/Text.DeckReviewItem"
+            app:layout_constraintStart_toEndOf="@id/tv_deck_review_info"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_learning_value" />
+
+        <TextView
+            android:id="@+id/tv_last_view_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_deck_review_value" />
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sobre"
+            android:textAppearance="@style/Text.SubTitleAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_last_view_info"
+            android:layout_marginTop="@dimen/default_margin_forms" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_add_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            android:layout_marginEnd="@dimen/min_margin"
+            android:layout_marginStart="@dimen/min_margin"
+            android:layout_marginTop="@dimen/default_little_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_about">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/add_new_card"
+                    android:textAppearance="@style/Text.DeckInfoSubtitle"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="center"/>
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ic_add"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="end"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:iconTint="@color/colorTextSecondary" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tv_next_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_cards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_add_item"
+            android:textAppearance="@style/Text.TitleAppearance"
+            android:layout_marginTop="@dimen/default_medium_margin" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_next_ask"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ask_card_size_default"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            android:layout_marginTop="@dimen/default_margins"
+            android:layout_marginEnd="@dimen/min_margin"
+            android:layout_marginStart="@dimen/min_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_next_card">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/add_new_card"
-                android:textAppearance="@style/Text.DeckInfoSubtitle"
-                android:textStyle="bold"
-                android:layout_weight="2"
-                android:gravity="center"/>
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/tv_ask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_add"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:backgroundTint="@color/colorPrimary"
-                app:iconTint="@color/colorTextSecondary" />
+                android:text="Esse é o meu texto que estou usando para treinar para ver como ele vai ficar no card"
+                android:textAppearance="@style/Text.CardTextAppearance"
+                android:gravity="center"
+                android:padding="16dp" />
 
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/tv_next_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/my_cards"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_add_item"
-        android:textAppearance="@style/Text.TitleAppearance"
-        android:layout_marginTop="@dimen/default_medium_margin" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_next_ask"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ask_card_size_default"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        android:layout_marginTop="@dimen/default_margins"
-        android:layout_marginEnd="@dimen/min_margin"
-        android:layout_marginStart="@dimen/min_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_next_card">
-
-        <TextView
-            android:id="@+id/tv_ask"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bt_study"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Esse é o meu texto que estou usando para treinar para ver como ele vai ficar no card"
-            android:textAppearance="@style/Text.CardTextAppearance"
-            android:gravity="center"
-            android:padding="16dp" />
+            android:backgroundTint="@color/colorPrimary"
+            app:cardElevation="9dp"
+            app:cardCornerRadius="48dp"
+            android:layout_marginTop="-20dp"
+            app:layout_constraintStart_toStartOf="@id/card_next_ask"
+            app:layout_constraintEnd_toEndOf="@id/card_next_ask"
+            app:layout_constraintTop_toBottomOf="@id/card_next_ask" >
 
-    </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Estudar"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="21sp"
+                android:textAlignment="center" />
+        </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/bt_study"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        app:cardElevation="9dp"
-        app:cardCornerRadius="48dp"
-        android:layout_marginTop="-20dp"
-        app:layout_constraintStart_toStartOf="@id/card_next_ask"
-        app:layout_constraintEnd_toEndOf="@id/card_next_ask"
-        app:layout_constraintTop_toBottomOf="@id/card_next_ask" >
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="Estudar"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="21sp"
-            android:textAlignment="center" />
-    </com.google.android.material.card.MaterialCardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

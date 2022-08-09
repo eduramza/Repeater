@@ -20,7 +20,7 @@ class DeckFragment: Fragment() {
 
     private var _binding: FragmentDeckBinding? = null
     private val binding get() = _binding!!
-    private val deckViewModel: DeckViewModel by viewModels()
+        private val deckViewModel: DeckViewModel by viewModels()
     private val args : DeckFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -44,6 +44,9 @@ class DeckFragment: Fragment() {
         }
         binding.btStudy.setOnClickListener {
             findNavController().navigate(R.id.action_deckFragment_to_flashCardFragment)
+        }
+        binding.cardAddItem.setOnClickListener {
+            findNavController().navigate(R.id.action_deckFragment_to_editCardFragment)
         }
     }
 

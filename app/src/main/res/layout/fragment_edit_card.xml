@@ -16,74 +16,67 @@
         android:clickable="true"
         android:focusable="true" />
 
-    <ImageView
-        android:id="@+id/img_config"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/container_answer"
+        android:id="@+id/card_front"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/ask_card_size_default"
-        app:cardElevation="8dp"
+        android:layout_height="@dimen/ask_card_size_default"
         app:cardCornerRadius="8dp"
-        android:layout_marginTop="@dimen/margin_session_long"
+        app:cardElevation="8dp"
+        android:layout_marginTop="@dimen/default_margins"
         android:layout_marginEnd="@dimen/min_margin"
         android:layout_marginStart="@dimen/min_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config">
+        app:layout_constraintTop_toBottomOf="@id/img_back">
 
-        <TextView
-            android:id="@+id/tv_answer"
+        <EditText
+            android:id="@+id/et_ask"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Esse é o texto de resposta de teste"
+            android:background="@null"
+            android:hint="@string/front_card_hint_info"
             android:textAppearance="@style/Text.CardTextAppearance"
+            android:maxLines="5"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:padding="24dp" />
+            android:padding="16dp" />
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/container_ask"
+        android:id="@+id/card_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/ask_card_size_default"
-        app:cardElevation="8dp"
+        android:layout_height="@dimen/ask_card_size_default"
         app:cardCornerRadius="8dp"
-        android:layout_marginTop="@dimen/margin_session_long"
+        app:cardElevation="8dp"
+        android:layout_marginTop="@dimen/default_margins"
         android:layout_marginEnd="@dimen/min_margin"
         android:layout_marginStart="@dimen/min_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_config">
+        app:layout_constraintTop_toBottomOf="@id/card_front">
 
-        <TextView
-            android:id="@+id/tv_ask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Esse é o meu texto que estou usando para treinar para ver como ele vai ficar no card"
+        <EditText
+            android:id="@+id/et_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/back_card_hint_info"
             android:textAppearance="@style/Text.CardTextAppearance"
+            android:maxLines="5"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:padding="24dp" />
+            android:padding="16dp" />
 
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_study"
+        android:id="@+id/bt_save_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reveal_answer"
+        android:text="@string/save_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

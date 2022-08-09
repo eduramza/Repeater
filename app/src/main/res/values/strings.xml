@@ -46,4 +46,11 @@
     <string name="add_new_card">Adicionar Novo Cartão</string>
     <string name="my_cards">Próximo Cartão</string>
     <string name="tittle">Titulo</string>
+    <string name="back">Voltar</string>
+    <string name="front_card_hint_info">Adicione a pergunta do seu cartão</string>
+    <string name="back_card_hint_info">Adicione a resposta do seu cartão</string>
+    <string name="save_card">Salvar Cartões</string>
+
+    <!-- button card -->
+    <string name="button_card_turn_round">Virar o Card</string>
 </resources>
