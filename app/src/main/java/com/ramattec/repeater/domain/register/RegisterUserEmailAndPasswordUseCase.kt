@@ -1,6 +1,6 @@
 package com.ramattec.repeater.domain.register
 
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.entity.user.UserFormEntity
 import com.ramattec.repeater.domain.repository.RegisterRepository
 import com.ramattec.repeater.domain.user.SaveUserOnFirebaseUseCase
@@ -13,7 +13,7 @@ class RegisterUserEmailAndPasswordUseCase @Inject constructor(
     private val saveUserOnFirebaseUseCase: SaveUserOnFirebaseUseCase
 ) {
     suspend operator fun invoke(userFormEntity: UserFormEntity) = flow {
-        emit(Outcome.Progress())
+        emit(ResponseResult.Progress())
         val result =
             registerRepository.doRegisterWithEmailAndPassword(
                 userFormEntity.email, userFormEntity.password)
@@ -21,7 +21,7 @@ class RegisterUserEmailAndPasswordUseCase @Inject constructor(
             val user = result.getOrNull()?.uid?.let {
                 saveUserOnFirebaseUseCase(userFormEntity)
             }
-            emit(Outcome.Success(user))
+            emit(ResponseResult.Success(user))
         }
-    }.catch { emit(Outcome.Failure(it)) }
+    }.catch { emit(ResponseResult.Failure(it)) }
 }

@@ -1,6 +1,6 @@
 package com.ramattec.repeater.domain.login
 
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.entity.user.UserEntity
 import com.ramattec.repeater.domain.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
@@ -13,12 +13,12 @@ import javax.inject.Inject
 class IsUserLoggedUseCase @Inject constructor(
     private val repository: LoginRepository
 ) {
-    operator fun invoke(): Flow<Outcome<UserEntity>> = flow {
-        emit(Outcome.Progress())
+    operator fun invoke(): Flow<ResponseResult<UserEntity>> = flow {
+        emit(ResponseResult.Progress())
         val user = repository.verifyIfUserIsLogged().getOrNull()
-        if (user != null) emit(Outcome.Success(user))
+        if (user != null) emit(ResponseResult.Success(user))
     }.catch {
-        emit(Outcome.Failure(it))
+        emit(ResponseResult.Failure(it))
     }.flowOn(Dispatchers.Default)
 
 }

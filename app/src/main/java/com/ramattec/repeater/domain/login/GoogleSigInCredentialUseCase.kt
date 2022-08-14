@@ -1,7 +1,7 @@
 package com.ramattec.repeater.domain.login
 
 import com.google.firebase.auth.AuthCredential
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.repository.LoginRepository
 import com.ramattec.repeater.domain.user.SaveUserOnFirebaseUseCase
 import kotlinx.coroutines.flow.catch
@@ -13,13 +13,13 @@ class GoogleSigInCredentialUseCase @Inject constructor(
     private val saveUserOnFirebaseUseCase: SaveUserOnFirebaseUseCase
 ) {
     suspend operator fun invoke(firebaseCredential: AuthCredential) = flow {
-        emit(Outcome.Progress())
+        emit(ResponseResult.Progress())
         val loginResult = repository.sigInWithGoogleCredential(firebaseCredential)
         if (loginResult.isSuccess) {
             val user = loginResult.getOrNull()?.let {
                 saveUserOnFirebaseUseCase(it)
             }
-            emit(Outcome.Success(user))
+            emit(ResponseResult.Success(user))
         }
-    }.catch { emit(Outcome.Failure(it)) }
+    }.catch { emit(ResponseResult.Failure(it)) }
 }

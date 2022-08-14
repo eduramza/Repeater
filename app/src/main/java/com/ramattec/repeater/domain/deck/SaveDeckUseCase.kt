@@ -1,6 +1,6 @@
 package com.ramattec.repeater.domain.deck
 
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.entity.deck.DeckFormEntity
 import com.ramattec.repeater.domain.repository.DeckRepository
 import kotlinx.coroutines.flow.catch
@@ -11,11 +11,11 @@ class SaveDeckUseCase @Inject constructor(
     private val deckRepository: DeckRepository
 ) {
     suspend operator fun invoke(deck: DeckFormEntity) = flow {
-        emit(Outcome.Progress())
+        emit(ResponseResult.Progress())
         deckRepository.saveDeck(deck).onSuccess {
-            emit(Outcome.Success(it))
+            emit(ResponseResult.Success(it))
         }
     }.catch {
-        emit(Outcome.Failure(it))
+        emit(ResponseResult.Failure(it))
     }
 }

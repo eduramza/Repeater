@@ -2,7 +2,7 @@ package com.ramattec.repeater.ui.deck
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.deck.DeleteDeckUseCase
 import com.ramattec.repeater.domain.deck.SaveDeckUseCase
 import com.ramattec.repeater.domain.entity.deck.DeckFormEntity
@@ -26,9 +26,9 @@ class DeckViewModel @Inject constructor(
         viewModelScope.launch {
             saveDeckUseCase(DeckFormEntity(title, category, description)).collect {
                 when(it){
-                    is Outcome.Progress -> _uiState.value = DeckUIState(isLoading = true)
-                    is Outcome.Success -> _uiState.value = DeckUIState(saveWithSuccess = true, isLoading = false)
-                    is Outcome.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
+                    is ResponseResult.Progress -> _uiState.value = DeckUIState(isLoading = true)
+                    is ResponseResult.Success -> _uiState.value = DeckUIState(saveWithSuccess = true, isLoading = false)
+                    is ResponseResult.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
                 }
             }
         }
@@ -38,9 +38,9 @@ class DeckViewModel @Inject constructor(
         viewModelScope.launch {
             deleteDeckUseCase(id).collect {
                 when(it){
-                    is Outcome.Progress -> _uiState.value = DeckUIState(isLoading = true)
-                    is Outcome.Success -> _uiState.value = DeckUIState(deleteWithSuccess = true, isLoading = false)
-                    is Outcome.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
+                    is ResponseResult.Progress -> _uiState.value = DeckUIState(isLoading = true)
+                    is ResponseResult.Success -> _uiState.value = DeckUIState(deleteWithSuccess = true, isLoading = false)
+                    is ResponseResult.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
                 }
             }
         }

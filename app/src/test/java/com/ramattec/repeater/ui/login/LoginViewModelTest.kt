@@ -1,6 +1,6 @@
 package com.ramattec.repeater.ui.login
 
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.login.EmailPasswordLoginUseCase
 import com.ramattec.repeater.domain.login.GoogleSigInCredentialUseCase
 import com.ramattec.repeater.domain.login.IsUserLoggedUseCase
@@ -102,7 +102,7 @@ class LoginViewModelTest {
         every { emailValidateUseCase(any()) } returns true
         every { passwordValidateUseCase(any()) } returns true
         coEvery { emailPasswordLoginUseCase(any(), any()) } returns flow {
-            emit(Outcome.Failure(IOException()))
+            emit(ResponseResult.Failure(IOException()))
         }
 
 

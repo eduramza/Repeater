@@ -1,7 +1,7 @@
 package com.ramattec.repeater.domain.deck
 
 import com.ramattec.repeater.data.model.deck.DeckModel
-import com.ramattec.repeater.domain.Outcome
+import com.ramattec.domain.ResponseResult
 import com.ramattec.repeater.domain.entity.deck.DeckEntity
 import com.ramattec.repeater.domain.repository.DeckRepository
 import kotlinx.coroutines.flow.catch
@@ -15,12 +15,12 @@ class FetchAllUserDecksUseCase @Inject constructor(
 ) {
     suspend operator fun invoke() = flow {
         val decks = deckRepository.getAllDecks()
-        if (decks.getOrNull() != null) emit(Outcome.Success(toEntity(decks.getOrNull()!!)))
-        else emit(Outcome.EmptyResponse())
+        if (decks.getOrNull() != null) emit(ResponseResult.Success(toEntity(decks.getOrNull()!!)))
+        else emit(ResponseResult.EmptyResponse())
     }.onStart {
-        emit(Outcome.Progress(null))
+        emit(ResponseResult.Progress(null))
     }.catch { error ->
-        emit(Outcome.Failure(error))
+        emit(ResponseResult.Failure(error))
     }
 
     private fun toEntity(decks: List<DeckModel>) =
