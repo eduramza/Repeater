@@ -34,7 +34,7 @@ class DeckRepositoryImpl @Inject constructor(
                     continuation.resume(ResponseResult.Success(results.map { it.toDeck() }))
                 }
                 .addOnFailureListener {
-                    continuation.resumeWithException(it)
+                    continuation.resume(ResponseResult.Failure(it))
                 }
 
         }
@@ -51,7 +51,7 @@ class DeckRepositoryImpl @Inject constructor(
                     continuation.resume(ResponseResult.Success(true))
                 }
                 .addOnFailureListener {
-                    continuation.resumeWithException(it)
+                    continuation.resume(ResponseResult.Failure(it))
                 }
         }
 
@@ -66,7 +66,7 @@ class DeckRepositoryImpl @Inject constructor(
                     continuation.resume(ResponseResult.Success(true))
                 }
                 .addOnFailureListener {
-                    continuation.resumeWithException(it)
+                    continuation.resume(ResponseResult.Failure(it))
                 }
         }
 }

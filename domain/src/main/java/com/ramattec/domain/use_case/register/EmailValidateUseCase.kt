@@ -1,4 +1,4 @@
-package com.ramattec.repeater.domain.register
+package com.ramattec.domain.use_case.register
 
 import javax.inject.Inject
 

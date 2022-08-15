@@ -37,7 +37,7 @@ class UserRepositoryImpl @Inject constructor(
                     continuation.resume(ResponseResult.Success(user))
                 }
                 .addOnFailureListener {
-                    continuation.resumeWithException(it)
+                    continuation.resume(ResponseResult.Failure(it))
                 }
         }
 
@@ -64,11 +64,11 @@ class UserRepositoryImpl @Inject constructor(
                         )
                     )
                 } ?: run{
-                    continuation.resumeWithException(NullPointerException())
+                    continuation.resume(ResponseResult.Failure(NullPointerException()))
                 }
             }
             .addOnFailureListener {
-                continuation.resumeWithException(it)
+                continuation.resume(ResponseResult.Failure(it))
             }
     }
 
@@ -83,8 +83,7 @@ class UserRepositoryImpl @Inject constructor(
                 }
             }
             .addOnFailureListener {
-                continuation.resumeWithException(it)
+                continuation.resume(ResponseResult.Failure(it))
             }
-
     }
 }

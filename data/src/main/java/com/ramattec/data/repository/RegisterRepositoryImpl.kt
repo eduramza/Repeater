@@ -25,7 +25,7 @@ class RegisterRepositoryImpl @Inject constructor(
                     }
                 }
                 .addOnFailureListener {
-                    continuation.resumeWithException(it)
+                    continuation.resume(ResponseResult.Failure(it))
                 }
         }
 }
