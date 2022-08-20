@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.ramattec.domain.model.user.User
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -37,32 +37,44 @@ class RegisterFragment : Fragment() {
 
     private fun setupView() {
         binding.signup.setOnClickListener {
-            registerViewModel.doRegister(
-                binding.emailInput.text.toString(),
-                binding.passwordInput.text.toString(),
-                binding.nameInput.text.toString()
+            registerViewModel.onEvent(
+                RegisterEvent.RegisterNewUser(
+                    User(
+                        email = binding.emailInput.text.toString(),
+                        password = binding.passwordInput.text.toString(),
+                        name = binding.nameInput.text.toString()
+                    )
+                )
             )
         }
     }
 
     private fun setupObservers() {
         lifecycleScope.launchWhenStarted {
-            registerViewModel.uiState
+            registerViewModel.getRegisterStateFlow()
                 .collect {
-                    if (it.newUser != null) loginNewUser()
-                    if (it.errorMessage.isNotEmpty()) showRegisterError(it.errorMessage)
-                    if (it.isLoading) binding.loading.visibility =
-                        View.VISIBLE else binding.loading.visibility = View.GONE
+                    when(it){
+                        is RegisterState.Loading -> showLoading()
+                        is RegisterState.NetworkError -> showRegisterError()
+                        is RegisterState.Success -> loginNewUser()
+                        else ->
+                            Toast.makeText(requireContext(), "caiu no else", Toast.LENGTH_SHORT).show()
+                    }
                 }
         }
+    }
+
+    private fun showLoading() {
+        binding.loading.visibility = View.VISIBLE
     }
 
     private fun loginNewUser() {
         findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
     }
 
-    private fun showRegisterError(error: String) {
-        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+    private fun showRegisterError() {
+        binding.loading.visibility = View.GONE
+        Toast.makeText(requireContext(), "deu ruim pai", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

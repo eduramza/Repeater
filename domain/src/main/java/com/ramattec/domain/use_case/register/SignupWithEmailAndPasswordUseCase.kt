@@ -1,6 +1,6 @@
 package com.ramattec.domain.use_case.register
 
-import com.ramattec.domain.ResponseResult
+import com.ramattec.domain.NetworkResult
 import com.ramattec.domain.model.user.User
 import com.ramattec.domain.repository.RegisterRepository
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +18,6 @@ class SignupWithEmailAndPasswordUseCase @Inject constructor(
         //TODO save user on firebase after this
         emit(result)
     }.onStart {
-        emit(ResponseResult.Progress())
+        emit(NetworkResult.Progress())
     }.flowOn(Dispatchers.IO)
 }

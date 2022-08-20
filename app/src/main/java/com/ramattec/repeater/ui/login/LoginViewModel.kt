@@ -3,7 +3,7 @@ package com.ramattec.repeater.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
-import com.ramattec.domain.ResponseResult.*
+import com.ramattec.domain.NetworkResult.*
 import com.ramattec.repeater.domain.login.EmailPasswordLoginUseCase
 import com.ramattec.repeater.domain.login.GoogleSigInCredentialUseCase
 import com.ramattec.repeater.domain.login.IsUserLoggedUseCase
@@ -12,7 +12,6 @@ import com.ramattec.repeater.domain.register.PasswordValidateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

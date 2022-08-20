@@ -1,6 +1,6 @@
 package com.ramattec.domain.use_case.deck
 
-import com.ramattec.domain.ResponseResult
+import com.ramattec.domain.NetworkResult
 import com.ramattec.domain.model.deck.Deck
 import com.ramattec.domain.repository.DeckRepository
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +15,6 @@ class SaveDeckUseCase @Inject constructor(
     operator fun invoke(deck: Deck) = flow {
         emit(repository.saveDeck(deck))
     }.onStart {
-        emit(ResponseResult.Progress())
+        emit(NetworkResult.Progress())
     }.flowOn(Dispatchers.IO)
 }

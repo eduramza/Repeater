@@ -1,6 +1,6 @@
 package com.ramattec.domain.use_case.login
 
-import com.ramattec.domain.ResponseResult
+import com.ramattec.domain.NetworkResult
 import com.ramattec.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -15,6 +15,6 @@ class EmailPasswordLoginUseCase @Inject constructor(
         val result = repository.doLoginWithEmailAndPassword(email, password)
         emit(result)
     }.onStart {
-        emit(ResponseResult.Progress())
+        emit(NetworkResult.Progress())
     }.flowOn(Dispatchers.IO)
 }

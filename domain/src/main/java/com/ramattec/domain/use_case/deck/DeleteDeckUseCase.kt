@@ -1,6 +1,6 @@
 package com.ramattec.domain.use_case.deck
 
-import com.ramattec.domain.ResponseResult
+import com.ramattec.domain.NetworkResult
 import com.ramattec.domain.repository.DeckRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -14,6 +14,6 @@ class DeleteDeckUseCase @Inject constructor(
     operator fun invoke(id: String) = flow {
         emit(deckRepository.deleteDeck(id))
     }.onStart {
-        emit(ResponseResult.Progress())
+        emit(NetworkResult.Progress())
     }.flowOn(Dispatchers.IO)
 }
