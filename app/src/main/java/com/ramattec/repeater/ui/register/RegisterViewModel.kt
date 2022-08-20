@@ -23,8 +23,8 @@ class RegisterViewModel @Inject constructor(
 
     private var registerJob: Job? = null
 
-    fun onEvent(event: RegisterEvent){
-        when(event){
+    fun onEvent(event: RegisterEvent) {
+        when (event) {
             is RegisterEvent.RegisterNewUser -> {
                 registerJob?.cancel()
                 registerJob = viewModelScope.launch {
@@ -37,11 +37,12 @@ class RegisterViewModel @Inject constructor(
     private fun doRegister(user: User) {
         //TODO validate all fields
         registerJob = viewModelScope.launch {
-            signupWithEmailAndPasswordUseCase(user).collectLatest{
-                when(it){
+            signupWithEmailAndPasswordUseCase(user).collectLatest {
+                when (it) {
                     is NetworkResult.Progress -> registerStateFlow.value = RegisterState.Loading
                     is NetworkResult.Failure -> registerStateFlow.value = RegisterState.NetworkError
-                    is NetworkResult.Success -> registerStateFlow.value = RegisterState.Success(it.data)
+                    is NetworkResult.Success -> registerStateFlow.value =
+                        RegisterState.Success(it.data)
                 }
             }
         }

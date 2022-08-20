@@ -53,12 +53,13 @@ class RegisterFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             registerViewModel.getRegisterStateFlow()
                 .collect {
-                    when(it){
+                    when (it) {
                         is RegisterState.Loading -> showLoading()
                         is RegisterState.NetworkError -> showRegisterError()
                         is RegisterState.Success -> loginNewUser()
                         else ->
-                            Toast.makeText(requireContext(), "caiu no else", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "caiu no else", Toast.LENGTH_SHORT)
+                                .show()
                     }
                 }
         }

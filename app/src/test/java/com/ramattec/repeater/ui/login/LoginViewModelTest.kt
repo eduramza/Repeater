@@ -92,7 +92,7 @@ class LoginViewModelTest {
     @Test
     fun `Email and Password Login, should change UI to loading and error`() = runTest {
         //setup
-        val results = mutableListOf<LoginUIState>()
+        val results = mutableListOf<LoginState>()
         val jobs = viewModel.uiState
             .onEach { results.add(it) }
             .launchIn(CoroutineScope(UnconfinedTestDispatcher(testScheduler)))

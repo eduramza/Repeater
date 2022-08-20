@@ -24,9 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentLoginBinding
-import com.ramattec.repeater.domain.entity.user.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -72,19 +70,22 @@ class LoginFragment : Fragment() {
     private fun setupView() {
         binding.passwordInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginViewModel.doLoginWithEmailAndPassword(
-                    binding.emailInput.text.toString(),
-                    binding.passwordInput.text.toString()
+                loginViewModel.onEvent(
+                    LoginEvent.LoginWithEmailAndPassword(
+                        binding.emailInput.text.toString(),
+                        binding.passwordInput.text.toString()
+                    )
                 )
             }
             false
         }
 
         binding.login.setOnClickListener {
-            binding.loading.visibility = View.VISIBLE
-            loginViewModel.doLoginWithEmailAndPassword(
-                binding.emailInput.text.toString(),
-                binding.passwordInput.text.toString()
+            loginViewModel.onEvent(
+                LoginEvent.LoginWithEmailAndPassword(
+                    binding.emailInput.text.toString(),
+                    binding.passwordInput.text.toString()
+                )
             )
         }
 
@@ -111,18 +112,20 @@ class LoginFragment : Fragment() {
 
     private fun setupObservers() {
         lifecycleScope.launchWhenCreated {
-            loginViewModel.uiState.collect {
-                if (it.loggedUser != null) loginUser(it.loggedUser)
-                if (it.loginError != null) showLoginFailed(it.loginError)
-                if (it.isLoadingUser) binding.loading.visibility =
-                    VISIBLE else binding.loading.visibility = GONE
-                if (!it.isEmailInputValid) binding.emailInput.error = "Email inválido"
-                if (!it.isPasswordInputValid) binding.passwordInput.error = "Senha inválida"
+            loginViewModel.getLoginState().collect {
+                when (it) {
+                    LoginState.EmailError -> binding.emailInput.error = "Email inválido"
+                    LoginState.Initial -> binding.loading.visibility = GONE
+                    LoginState.NetworkError -> showLoginFailed("Error no login")
+                    LoginState.PasswordError -> binding.passwordInput.error = "Senha inválida"
+                    LoginState.Progress -> binding.loading.visibility = VISIBLE
+                    is LoginState.UserLogged -> loginUser()
+                }
             }
         }
     }
 
-    private fun loginUser(loginUIState: UserEntity?) {
+    private fun loginUser() {
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
@@ -143,7 +146,11 @@ class LoginFragment : Fragment() {
                     when {
                         idToken != null -> {
                             val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                            loginViewModel.doLoginWithGoogle(firebaseCredential)
+                            loginViewModel.onEvent(
+                                LoginEvent.LoginWithGoogleAccount(
+                                    firebaseCredential
+                                )
+                            )
                         }
                     }
                 } catch (e: ApiException) {
