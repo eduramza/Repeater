@@ -3,49 +3,68 @@ package com.ramattec.repeater.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramattec.domain.NetworkResult
-import com.ramattec.repeater.domain.deck.DeleteDeckUseCase
-import com.ramattec.repeater.domain.deck.FetchAllUserDecksUseCase
-import com.ramattec.repeater.domain.user.GetUsernameUseCase
+import com.ramattec.domain.model.user.User
+import com.ramattec.domain.use_case.deck.DeleteDeckUseCase
+import com.ramattec.domain.use_case.deck.FetchDecksUseCase
+import com.ramattec.domain.use_case.user.GetUsernameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val fetchAllUserDecksUseCase: FetchAllUserDecksUseCase,
+    private val fetchAllUserDecksUseCase: FetchDecksUseCase,
     private val getUsernameUseCase: GetUsernameUseCase,
     private val deleteDeckUseCase: DeleteDeckUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUIState())
-    val uiState = _uiState.asStateFlow()
+    private val homeState = MutableStateFlow<HomeState>(HomeState.Initial)
+    fun getHomeState(): StateFlow<HomeState> = homeState
 
-    fun getAllDecks() {
-        viewModelScope.launch {
-            fetchAllUserDecksUseCase().collect {
+    init {
+        getAllDecks()
+    }
+
+    fun onEvent(event: HomeEvent) {
+        when (event) {
+            is HomeEvent.DeletingDeck -> deleteDeck(event.id)
+        }
+    }
+
+    private fun getAllDecks() {
+       viewModelScope.launch {
+            fetchAllUserDecksUseCase().collectLatest {
                 when (it) {
-                    is NetworkResult.Progress -> _uiState.value = HomeUIState(isLoading = true)
-                    is NetworkResult.EmptyResponse -> _uiState.value = HomeUIState(isLoading = false)
-                    is NetworkResult.Failure -> _uiState.value = HomeUIState(isLoading = false)
+                    is NetworkResult.Failure -> homeState.value = HomeState.ErrorFetchDeck
+                    is NetworkResult.Progress -> homeState.value = HomeState.Loading
                     is NetworkResult.Success -> {
-                        _uiState.value = HomeUIState(isLoading = false, decksLoaded = it.data)
+                        if (it.data.isEmpty()) homeState.value = HomeState.EmptyDeckList
+                        else {
+                            homeState.value = HomeState.DecksFetched(it.data)
+                            getUsername()
+                        }
                     }
                 }
             }
         }
     }
 
-    fun getUsername() = getUsernameUseCase()
+    private fun getUsername() {
+        //TODO get data of user like photo
+        homeState.value = HomeState.UserLoaded(User(name = getUsernameUseCase()))
+    }
 
-    fun deleteDeck(id:String){
+    private fun deleteDeck(id: String) {
         viewModelScope.launch {
-            deleteDeckUseCase(id).collect {
-                when(it){
-                    is NetworkResult.Progress -> _uiState.value = HomeUIState(isLoading = true)
-                    is NetworkResult.Success -> _uiState.value = HomeUIState(deckDeleted = true, isLoading = false)
-                    is NetworkResult.Failure -> _uiState.value = HomeUIState(isError = true, isLoading = false)
+            deleteDeckUseCase(id).collectLatest {
+                when (it) {
+                    is NetworkResult.Failure -> homeState.value = HomeState.ErrorDeleteDeck
+                    is NetworkResult.Progress -> homeState.value = HomeState.Loading
+                    is NetworkResult.Success -> getAllDecks()
                 }
             }
         }

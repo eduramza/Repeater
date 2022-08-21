@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -115,7 +114,6 @@ class LoginFragment : Fragment() {
             loginViewModel.getLoginState().collect {
                 when (it) {
                     LoginState.EmailError -> binding.emailInput.error = "Email inválido"
-                    LoginState.Initial -> binding.loading.visibility = GONE
                     LoginState.NetworkError -> showLoginFailed("Error no login")
                     LoginState.PasswordError -> binding.passwordInput.error = "Senha inválida"
                     LoginState.Progress -> binding.loading.visibility = VISIBLE

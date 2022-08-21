@@ -15,7 +15,7 @@ class MyPreferenceManager @Inject constructor(@ApplicationContext private val co
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun getStoredName(): String {
-        return prefs.getString(PREF_NAME, "") ?: ""
+        return prefs.getString(PREF_NAME, "Bingonelson") ?: "Bingonelson"
     }
     fun setStoredName(query: String) {
         prefs.edit().putString(PREF_NAME, query).apply()

@@ -18,16 +18,13 @@ class RegisterViewModel @Inject constructor(
     private val signupWithEmailAndPasswordUseCase: SignupWithEmailAndPasswordUseCase
 ) : ViewModel() {
 
-    private val registerStateFlow = MutableStateFlow<RegisterState>(RegisterState.Typing)
+    private val registerStateFlow = MutableStateFlow<RegisterState>(RegisterState.Initial)
     fun getRegisterStateFlow(): StateFlow<RegisterState> = registerStateFlow
-
-    private var registerJob: Job? = null
 
     fun onEvent(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.RegisterNewUser -> {
-                registerJob?.cancel()
-                registerJob = viewModelScope.launch {
+                viewModelScope.launch {
                     doRegister(event.data)
                 }
             }
@@ -36,7 +33,7 @@ class RegisterViewModel @Inject constructor(
 
     private fun doRegister(user: User) {
         //TODO validate all fields
-        registerJob = viewModelScope.launch {
+        viewModelScope.launch {
             signupWithEmailAndPasswordUseCase(user).collectLatest {
                 when (it) {
                     is NetworkResult.Progress -> registerStateFlow.value = RegisterState.Loading

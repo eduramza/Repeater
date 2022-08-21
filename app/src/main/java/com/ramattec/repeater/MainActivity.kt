@@ -7,10 +7,11 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ramattec.repeater.databinding.ActivityMainBinding
-import com.ramattec.repeater.domain.entity.user.UserEntity
+import com.ramattec.repeater.ui.login.LoginEvent
+import com.ramattec.repeater.ui.login.LoginState
 import com.ramattec.repeater.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,20 +23,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         installSplashScreen().apply {
-            setKeepOnScreenCondition{
+            setKeepOnScreenCondition {
                 var splash = true
                 lifecycleScope.launchWhenCreated {
-                    loginViewModel.verifyIfUserIsLogged()
-                    loginViewModel.uiState
-                        .collect {
-                            if (it.loggedUser != null) initNavHost(it.loggedUser.isLogged)
-                            splash = it.isLoadingInitialUser
+                    loginViewModel.onEvent(LoginEvent.VerifyIfUserIsLogged)
+                    loginViewModel.getLoginState().collect {
+                        if (it is LoginState.UserLogged) {
+                            initNavHost(true)
+                            splash = false
                         }
+                        else if (it == LoginState.UserNotLogged) {
+                            initNavHost(false)
+                            splash = false
+                        }
+                    }
                 }
                 splash
             }
         }
-
         setContentView(binding?.root)
     }
 
@@ -44,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val graphInflater = navHostFragment!!.findNavController().navInflater
         val navGraph = graphInflater.inflate(R.navigation.repeater_nav_graph)
         val navController = navHostFragment.findNavController()
-        val destination = if(isLogged) R.id.homeFragment else R.id.loginFragment
+        val destination = if (isLogged) R.id.homeFragment else R.id.loginFragment
         navGraph.setStartDestination(destination)
         navController.graph = navGraph
     }

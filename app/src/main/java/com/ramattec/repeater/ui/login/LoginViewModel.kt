@@ -26,10 +26,8 @@ class LoginViewModel @Inject constructor(
     private val passwordValidateUseCase: PasswordValidateUseCase
 ) : ViewModel() {
 
-    private val loginStateFlow = MutableStateFlow<LoginState>(LoginState.Initial)
+    private val loginStateFlow = MutableStateFlow<LoginState>(LoginState.Progress)
     fun getLoginState(): StateFlow<LoginState> = loginStateFlow
-
-    private var loginJob: Job? = null
 
     fun onEvent(event: LoginEvent) {
         when (event) {
@@ -40,7 +38,7 @@ class LoginViewModel @Inject constructor(
             )
             is LoginEvent.LoginWithGoogleAccount -> doLoginWithGoogle(event.credential)
             is LoginEvent.PasswordFilled -> verifyPassword(event.password)
-            is LoginEvent.IsUserLogged -> verifyIfUserIsLogged()
+            LoginEvent.VerifyIfUserIsLogged -> verifyIfUserIsLogged()
         }
     }
 
@@ -53,21 +51,24 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun verifyIfUserIsLogged() {
-        loginJob?.cancel()
-        loginJob = viewModelScope.launch {
+        viewModelScope.launch {
             isUserLoggedUseCase().collectLatest {
                 when (it) {
                     is Failure -> loginStateFlow.value = LoginState.NetworkError
                     is Progress -> loginStateFlow.value = LoginState.Progress
-                    is Success -> loginStateFlow.value = LoginState.UserLogged(it.data)
+                    is Success -> {
+                        if (it.data.isLogged)
+                            loginStateFlow.value = LoginState.UserLogged(it.data)
+                        else
+                            loginStateFlow.value = LoginState.UserNotLogged
+                    }
                 }
             }
         }
     }
 
     private fun doLoginWithEmailAndPassword(email: String, password: String) {
-        loginJob?.cancel()
-        loginJob = viewModelScope.launch {
+        viewModelScope.launch {
             emailPasswordLoginUseCase(email, password).collectLatest {
                 when (it) {
                     is Failure -> loginStateFlow.value = LoginState.NetworkError
@@ -79,8 +80,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun doLoginWithGoogle(firebaseCredential: AuthCredential) {
-        loginJob?.cancel()
-        loginJob = viewModelScope.launch {
+        viewModelScope.launch {
             googleLoginUseCase(firebaseCredential).collectLatest {
                 when (it) {
                     is Failure -> loginStateFlow.value = LoginState.NetworkError

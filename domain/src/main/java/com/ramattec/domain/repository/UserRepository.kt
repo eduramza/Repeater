@@ -5,7 +5,7 @@ import com.ramattec.domain.NetworkResult
 import com.ramattec.domain.model.user.User
 
 interface UserRepository {
-    suspend fun getName(): String
+    fun getName(): String
 
     suspend fun updateUser(user: User): NetworkResult<User>
 

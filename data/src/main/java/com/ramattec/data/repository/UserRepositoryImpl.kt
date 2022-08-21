@@ -23,7 +23,7 @@ class UserRepositoryImpl @Inject constructor(
     private val pref: MyPreferenceManager
 ): UserRepository{
 
-    override suspend fun getName() = pref.getStoredName()
+    override fun getName() = pref.getStoredName()
 
     override suspend fun updateUser(user: User) =
         suspendCoroutine<NetworkResult<User>> { continuation ->

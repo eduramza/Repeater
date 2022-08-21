@@ -1,7 +1,7 @@
 package com.ramattec.repeater.di
 
 import android.content.Context
-import com.ramattec.repeater.data.MyPreferenceManager
+import com.ramattec.data.local.MyPreferenceManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

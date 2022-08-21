@@ -3,12 +3,13 @@ package com.ramattec.repeater.ui.deck
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramattec.domain.NetworkResult
-import com.ramattec.repeater.domain.deck.DeleteDeckUseCase
-import com.ramattec.repeater.domain.deck.SaveDeckUseCase
-import com.ramattec.repeater.domain.entity.deck.DeckFormEntity
+import com.ramattec.domain.model.deck.Deck
+import com.ramattec.domain.use_case.deck.DeleteDeckUseCase
+import com.ramattec.domain.use_case.deck.SaveDeckUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,31 +17,34 @@ import javax.inject.Inject
 class DeckViewModel @Inject constructor(
     private val saveDeckUseCase: SaveDeckUseCase,
     private val deleteDeckUseCase: DeleteDeckUseCase
-): ViewModel() {
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(DeckUIState())
-    val uiState = _uiState.asStateFlow()
+    private val deckState = MutableStateFlow<DeckState>(DeckState.Loading)
+    fun getDeckState(): StateFlow<DeckState> = deckState
 
-    fun saveOrUpdateDeck(title: String, category: String, description: String) {
-        viewModelScope.launch {
-            saveDeckUseCase(DeckFormEntity(title, category, description)).collect {
-                when(it){
-                    is NetworkResult.Progress -> _uiState.value = DeckUIState(isLoading = true)
-                    is NetworkResult.Success -> _uiState.value = DeckUIState(saveWithSuccess = true, isLoading = false)
-                    is NetworkResult.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
-                }
+    fun onEvent(event: DeckEvent) {
+        when (event) {
+            is DeckEvent.DeletingDeck -> doDeleteDeck(event.deckId)
+            is DeckEvent.SavingDeck -> doSaveDeck(event.deck)
+        }
+    }
+
+    private fun doSaveDeck(deck: Deck) = viewModelScope.launch {
+        saveDeckUseCase(deck).collectLatest {
+            when (it) {
+                is NetworkResult.Failure -> deckState.value = DeckState.Error
+                is NetworkResult.Progress -> deckState.value = DeckState.Loading
+                is NetworkResult.Success -> deckState.value = DeckState.DeckSaved
             }
         }
     }
 
-    fun deleteDeck(id: String){
-        viewModelScope.launch {
-            deleteDeckUseCase(id).collect {
-                when(it){
-                    is NetworkResult.Progress -> _uiState.value = DeckUIState(isLoading = true)
-                    is NetworkResult.Success -> _uiState.value = DeckUIState(deleteWithSuccess = true, isLoading = false)
-                    is NetworkResult.Failure -> _uiState.value = DeckUIState(errorMessage = true, isLoading = false)
-                }
+    private fun doDeleteDeck(id: String) = viewModelScope.launch {
+        deleteDeckUseCase(id).collectLatest {
+            when (it) {
+                is NetworkResult.Failure -> deckState.value = DeckState.Error
+                is NetworkResult.Progress -> deckState.value = DeckState.Loading
+                is NetworkResult.Success -> deckState.value = DeckState.DeckDeleted
             }
         }
     }

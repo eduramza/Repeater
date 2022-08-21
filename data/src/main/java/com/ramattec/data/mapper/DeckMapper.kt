@@ -4,8 +4,10 @@ import com.ramattec.data.model.deck.DeckDto
 import com.ramattec.domain.model.deck.Deck
 import java.util.*
 
+
 fun DeckDto.toDeck() =
     Deck(
+        deckId = deckId,
         title = title,
         about = about,
         category = category

@@ -5,26 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ramattec.domain.model.deck.Deck
 import com.ramattec.repeater.databinding.ItemDeckBinding
-import com.ramattec.repeater.domain.entity.deck.DeckEntity
 
 class DecksAdapter(
     private val onClick: (deckId: String) -> Unit,
     private val onLongClick: (deckId: String) -> Unit
-) : ListAdapter<DeckEntity, DecksAdapter.ViewHolder>(DeckDiffCallback()) {
+) : ListAdapter<Deck, DecksAdapter.ViewHolder>(DeckDiffCallback()) {
 
     inner class ViewHolder(private val binding: ItemDeckBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(item: DeckEntity) {
+        fun bindItems(item: Deck) {
             binding.tvDeckTitle.text = item.title
-            binding.tvGridDeckNewValue.text = item.news.toString()
-            binding.tvGridDeckLearningValue.text = item.learning.toString()
-            binding.tvGridDeckReviewingValue.text = item.toReview.toString()
+            binding.tvGridDeckNewValue.text = item.deckCardsInfo?.news.toString()
+            binding.tvGridDeckLearningValue.text = item.deckCardsInfo?.learning.toString()
+            binding.tvGridDeckReviewingValue.text = item.deckCardsInfo?.reviewing.toString()
             binding.root.setOnClickListener {
-                onClick(item.id)
+                onClick(item.deckId)
             }
             binding.root.setOnLongClickListener {
-                onLongClick(item.id)
+                onLongClick(item.deckId)
                 true
             }
         }
@@ -45,10 +45,10 @@ class DecksAdapter(
     }
 }
 
-private class DeckDiffCallback : DiffUtil.ItemCallback<DeckEntity>() {
-    override fun areItemsTheSame(oldItem: DeckEntity, newItem: DeckEntity) =
-        oldItem.id == newItem.id
+private class DeckDiffCallback : DiffUtil.ItemCallback<Deck>() {
+    override fun areItemsTheSame(oldItem: Deck, newItem: Deck) =
+        oldItem.deckId == newItem.deckId
 
-    override fun areContentsTheSame(oldItem: DeckEntity, newItem: DeckEntity) =
+    override fun areContentsTheSame(oldItem: Deck, newItem: Deck) =
         oldItem == newItem
 }

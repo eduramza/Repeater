@@ -12,16 +12,15 @@ import androidx.navigation.fragment.navArgs
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.FragmentDeckBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
-class DeckFragment: Fragment() {
+class DeckFragment : Fragment() {
 
     private var _binding: FragmentDeckBinding? = null
     private val binding get() = _binding!!
     private val deckViewModel: DeckViewModel by viewModels()
-    private val args : DeckFragmentArgs by navArgs()
+    private val args: DeckFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +48,16 @@ class DeckFragment: Fragment() {
 
     private fun setupView() {
         binding.imgSettings.setOnClickListener {
-            deckViewModel.deleteDeck(args.deckId)
+            deckViewModel.onEvent(DeckEvent.DeletingDeck(args.deckId))
         }
     }
 
     private fun setupObservers() {
         lifecycleScope.launchWhenCreated {
-            deckViewModel.uiState.collect {
-                if (it.deleteWithSuccess) findNavController().popBackStack()
+            deckViewModel.getDeckState().collect {
+                when (it) {
+                    is DeckState.DeckDeleted -> findNavController().popBackStack()
+                }
             }
         }
     }

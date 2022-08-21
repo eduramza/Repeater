@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetUsernameUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke() = userRepository.getName()
+    operator fun invoke() = userRepository.getName()
 }

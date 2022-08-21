@@ -11,11 +11,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+import com.ramattec.domain.model.deck.Deck
 import com.ramattec.repeater.R
 import com.ramattec.repeater.databinding.BottomSheetDialogDeckBinding
+import com.ramattec.repeater.ui.home.HomeEvent
 import com.ramattec.repeater.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class DeckBottomSheetFragment : BottomSheetDialogFragment() {
@@ -47,21 +48,27 @@ class DeckBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setupObservers() {
         lifecycleScope.launchWhenCreated {
-            deckViewModel.uiState.collect {
-                if (it.isLoading) {
-                    binding.progress.visibility = View.VISIBLE
-                    binding.contentNewDeck.visibility = View.INVISIBLE
-                } else {
-                    binding.progress.visibility = View.GONE
-                    binding.contentNewDeck.visibility = View.VISIBLE
-                }
-                if (it.errorMessage) showDeckError()
-                if (it.saveWithSuccess) {
-                    homeViewModel.getAllDecks()
-                    dismiss()
+            deckViewModel.getDeckState().collect {
+                when (it) {
+                    DeckState.DeckSaved -> {
+                        homeViewModel.onEvent(HomeEvent.FetchDecks)
+                        dismiss()
+                    }
+                    DeckState.Error -> showDeckError()
+                    DeckState.Loading -> showLoading()
+                    else -> {
+                        //TODO verify else branch to not used states
+                        binding.progress.visibility = View.GONE
+                        binding.contentNewDeck.visibility = View.VISIBLE
+                    }
                 }
             }
         }
+    }
+
+    private fun showLoading() {
+        binding.progress.visibility = View.VISIBLE
+        binding.contentNewDeck.visibility = View.GONE
     }
 
     private fun showDeckError() {
@@ -70,10 +77,14 @@ class DeckBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setupListeners() {
         binding.btDone.setOnClickListener {
-            deckViewModel.saveOrUpdateDeck(
-                binding.titleInput.text.toString(),
-                binding.categoryInput.text.toString(),
-                binding.descriptionInput.text.toString()
+            deckViewModel.onEvent(
+                DeckEvent.SavingDeck(
+                    Deck(
+                        title = binding.titleInput.text.toString(),
+                        about = binding.descriptionInput.text.toString(),
+                        category = binding.categoryInput.text.toString()
+                    )
+                )
             )
         }
     }
